@@ -42,12 +42,12 @@ possa orientar uma futura implementação.
 
 ## Equipe
 
-Integrante 1 - Emmanuel de Pinho
-Integrante 2 - Aquiles Angelo
-Integrante 3 - Andressa Caroline
-Integrante 4 - Maria Rita
-Integrante 5 - Franklin Reis
-Integrante 6 - Guilherme Freire
+- Integrante 1 - Emmanuel de Pinho
+- Integrante 2 - Aquiles Angelo
+- Integrante 3 - Andressa Caroline
+- Integrante 4 - Maria Rita
+- Integrante 5 - Franklin Reis
+- Integrante 6 - Guilherme Freire
 
 ## Status
 
