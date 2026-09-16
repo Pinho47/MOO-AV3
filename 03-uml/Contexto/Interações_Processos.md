@@ -22,3 +22,22 @@ Ainda não decidido se o sistema vai disparar notificação real por e-mail (ato
 Atendente — EXCLUÍDO (DEC-007)
 
 Não será incluído no escopo desta fase do projeto. É um papel opcional; excluí-lo evita acréscimo desnecessário de requisitos, regras, casos de uso e permissões, mantendo o foco nos objetivos pedagógicos da AV3. Se o grupo decidir incluí-lo depois, isso vira uma nova decisão formal.
+
+4. Processos de negócio candidatos
+
+Continuam válidos, independente da inovação (são baseados nos módulos obrigatórios do escopo mínimo, não na inovação):
+
+Criar e editar perfil de psicólogo (CRP, área de atuação)
+Definir e editar disponibilidade de horários
+Cadastrar e editar paciente
+Bloquear e desbloquear usuário
+Gerenciar perfis e permissões
+Consultar trilha de auditoria
+Consultar histórico de atendimento
+5. Validação dos módulos mínimos no diagrama de contexto
+Identidade e acesso — coberto via Administrador (login, perfis, permissões)
+Administração — coberto via Administrador (painel, gestão de usuários/pacientes, auditoria)
+Psicólogos — coberto via ator Psicólogo
+Clientes/Pacientes — coberto diretamente via ator Paciente (login próprio)
+Agenda — coberto via Psicólogo e via Paciente
+Atendimento — coberto via Psicólogo
