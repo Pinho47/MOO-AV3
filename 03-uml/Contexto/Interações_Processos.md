@@ -1,6 +1,6 @@
 1. Interações detalhadas por ator — decisão oficial do grupo
 Administrador (confirmado)
-
+-----------------------------------------------------------------------------------------------------------------
 Gerencia usuários, perfis, permissões, psicólogos e clientes/pacientes. Consulta auditoria. Restrição: não pode visualizar senhas em texto puro. Como não há Atendente (DEC-007), também acumula o cadastro administrativo de paciente no dia a dia.
 
 Psicólogo (confirmado)
@@ -23,8 +23,8 @@ Atendente — EXCLUÍDO (DEC-007)
 
 Não será incluído no escopo desta fase do projeto. É um papel opcional; excluí-lo evita acréscimo desnecessário de requisitos, regras, casos de uso e permissões, mantendo o foco nos objetivos pedagógicos da AV3. Se o grupo decidir incluí-lo depois, isso vira uma nova decisão formal.
 
-4. Processos de negócio candidatos
-
+2. Processos de negócio candidatos
+-----------------------------------------------------------------------------------------------------------------
 Continuam válidos, independente da inovação (são baseados nos módulos obrigatórios do escopo mínimo, não na inovação):
 
 Criar e editar perfil de psicólogo (CRP, área de atuação)
@@ -34,7 +34,9 @@ Bloquear e desbloquear usuário
 Gerenciar perfis e permissões
 Consultar trilha de auditoria
 Consultar histórico de atendimento
-5. Validação dos módulos mínimos no diagrama de contexto
+
+3. Validação dos módulos mínimos no diagrama de contexto
+-----------------------------------------------------------------------------------------------------------------
 Identidade e acesso — coberto via Administrador (login, perfis, permissões)
 Administração — coberto via Administrador (painel, gestão de usuários/pacientes, auditoria)
 Psicólogos — coberto via ator Psicólogo
