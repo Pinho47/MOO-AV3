@@ -45,7 +45,7 @@ possa orientar uma futura implementação.
 - Integrante 1 - Emmanuel de Pinho
 - Integrante 2 - Aquiles Angelo
 - Integrante 3 - Andressa Caroline
-- Integrante 4 - Maria Rita
+- Integrante 4 - Caio Cunha
 - Integrante 5 - Franklin Reis
 - Integrante 6 - Guilherme Freire
 
