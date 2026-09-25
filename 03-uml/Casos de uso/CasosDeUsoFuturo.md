@@ -2,11 +2,11 @@ Revisão de Casos de Uso Futuros
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Objetivo: confirmar nomes/fronteiras/atores antes da Fase 4, e sinalizar o que precisa de ajuste.
 
-1. Confirmados sem alteração
+(1)Confirmados sem alteração 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 A maioria dos UC-FUT está com nome, ator e fronteira coerentes com o que mapeamos nas Fases 1 e 2. Confirmo os seguintes como estão: UC-FUT-001, 002, 003, 005, 007, 008, 010, 011, 012, 013, 014, 015, 017, 018, 019, 020, 022, 023, 024, 025, 026, 027, 028, 029, 030, 031.
 
-2. Pontos que precisam de ajuste ou decisão antes da Fase 4
+(2)Pontos que precisam de ajuste ou decisão antes da Fase 4
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 UC-FUT-004 e UC-FUT-016 - possível redundância
 
@@ -36,7 +36,7 @@ RF-027 já está marcado como pendente quanto a prazo/estados, mas o texto tamb�
 
 DEC-011 (sugestão) - Além do Paciente, o Psicólogo e/ou o Administrador também podem cancelar um agendamento? Se sim, em quais condições?
 
-3. Confirmação dos processos críticos (candidatos a diagrama de sequência)
+(3)Confirmação dos processos críticos (candidatos a diagrama de sequência)
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Batendo a matriz com o que a gente já tinha das Fases 1 e 2, os 3 processos críticos confirmados continuam os mesmos, agora com RF oficial:
 
