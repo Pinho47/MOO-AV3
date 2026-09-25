@@ -1,0 +1,43 @@
+classDiagram
+    direction TB
+    %% Modelo conceitual parcial. PENDENTE e uma anotacao editorial,
+    %% nao uma multiplicidade UML. Consultar modelo-dominio.md.
+    class Usuario
+    class Perfil
+    class Permissao
+    class Psicologo
+    class AreaAtuacao
+    class Paciente
+    class Vinculo
+    class Agenda
+    class Disponibilidade
+    class Agendamento
+    class Atendimento
+    class RegistroAuditoria
+
+    Usuario "PENDENTE" -- "PENDENTE" Perfil : A01 possui perfil de acesso
+    Perfil "PENDENTE" -- "PENDENTE" Permissao : A02 agrupa
+    Usuario "PENDENTE" -- "PENDENTE" Psicologo : A03 conta do cadastro profissional
+    Usuario "PENDENTE" -- "PENDENTE" Paciente : A04 conta do cadastro de paciente
+    Psicologo "PENDENTE" -- "PENDENTE" AreaAtuacao : A05 atua em
+    Psicologo "1" -- "PENDENTE" Vinculo : A06 participa
+    Paciente "1" -- "PENDENTE" Vinculo : A07 participa
+    Psicologo "1" -- "PENDENTE" Agenda : A08 titular
+    Agenda "1" -- "PENDENTE" Disponibilidade : A09 organiza
+    Agenda "PENDENTE" -- "PENDENTE" Agendamento : A10 apresenta compromissos
+    Psicologo "1" -- "PENDENTE" Agendamento : A11 profissional agendado
+    Paciente "1" -- "PENDENTE" Agendamento : A12 paciente agendado
+    Psicologo "1" -- "PENDENTE" Atendimento : A13 profissional responsavel
+    Paciente "1" -- "PENDENTE" Atendimento : A14 paciente atendido
+    Agendamento "PENDENTE" -- "PENDENTE" Atendimento : A15 corresponde a sessao
+    Usuario "1" -- "PENDENTE" RegistroAuditoria : A16 responsavel pela operacao
+
+    note "PENDENTE indica multiplicidade ainda nao definida; nao significa 1 nem 0..*. Modelo parcial para revisao."
+    note for Usuario "Conta de acesso distinta dos cadastros. Credencial protegida; nunca senha em texto puro."
+    note for Perfil "Perfil de acesso. Administrador e um papel, nao uma classe independente."
+    note for Psicologo "Cadastro profissional. Perfil profissional nao e Perfil de acesso."
+    note for AreaAtuacao "RF-016 admite uma ou mais areas; minimo durante o cadastro e compartilhamento ainda pendentes."
+    note for Vinculo "Cada vinculo identifica um psicologo e um paciente. Quantidades e encerramento pendentes."
+    note for Agendamento "Exige vinculo autorizado e horario disponivel. RN-005 impede conflitos ativos."
+    note for Atendimento "Exige vinculo autorizado entre os mesmos participantes. Cancelamento impede realizacao (RN-006)."
+    note for RegistroAuditoria "Usuario responsavel, data, hora e operacao. Cronologico e logicamente imutavel."
