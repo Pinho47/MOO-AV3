@@ -1,0 +1,87 @@
+classDiagram
+    direction TB
+    %% Modelo parcial: tipos e retornos omitidos permanecem PENDENTES, nao void.
+    %% PENDENTE nos extremos e anotacao editorial, nao multiplicidade UML.
+    %% Contratos condicionados e assinaturas incompletas: ver especificacao.
+    class Usuario {
+        -identificacao
+        -credencialProtegida
+        -situacaoConta
+        +ativar(solicitante: Usuario)
+        +bloquear(solicitante: Usuario)
+        +associarPerfil(perfil: Perfil, solicitante: Usuario)
+        +atualizarDadosPermitidos(dadosPermitidos, solicitante: Usuario)
+    }
+    class Perfil {
+        +adicionarPermissao(permissao: Permissao, solicitante: Usuario)
+        +removerPermissao(permissao: Permissao, solicitante: Usuario)
+    }
+    class Permissao
+    class Psicologo {
+        +atualizarDadosProfissionais(dadosPermitidos, solicitante: Usuario)
+        +associarAreaAtuacao(area: AreaAtuacao, solicitante: Usuario)
+        +consultarPacientesVinculados(solicitante: Usuario)
+        +consultarHistoricoPermitido(paciente: Paciente, solicitante: Usuario)
+    }
+    class AreaAtuacao
+    class Paciente {
+        -situacaoCadastral
+        +atualizarCadastro(dadosPermitidos, solicitante: Usuario)
+        +alterarSituacao(novaSituacao, solicitante: Usuario)
+        +consultarCadastroPermitido(solicitante: Usuario)
+    }
+    class Vinculo {
+        +formalizar(psicologo: Psicologo, paciente: Paciente, solicitante: Usuario) Vinculo$
+        +estaAutorizado() Booleano
+    }
+    class Agenda {
+        +adicionarDisponibilidade(disponibilidade: Disponibilidade, solicitante: Usuario)
+        +verificarDisponibilidade(horario) Booleano
+    }
+    class Disponibilidade {
+        -periodo
+    }
+    class Agendamento {
+        -horario
+        -situacao
+        +solicitar(psicologo: Psicologo, paciente: Paciente, horario, solicitante: Usuario) Agendamento$
+        +confirmar()
+        +cancelar(solicitante: Usuario)
+    }
+    class Atendimento {
+        +registrar(psicologo: Psicologo, paciente: Paciente, contextoSessao, solicitante: Usuario) Atendimento$
+    }
+    class RegistroAuditoria {
+        -Data data
+        -Hora hora
+        -operacao
+        +registrar(responsavel: Usuario, data: Data, hora: Hora, operacao) RegistroAuditoria$
+    }
+
+    Usuario "PENDENTE" -- "PENDENTE" Perfil : A01 possui perfil de acesso
+    Perfil "PENDENTE" -- "PENDENTE" Permissao : A02 agrupa
+    Usuario "PENDENTE" -- "PENDENTE" Psicologo : A03 conta do cadastro profissional
+    Usuario "PENDENTE" -- "PENDENTE" Paciente : A04 conta do cadastro de paciente
+    Psicologo "PENDENTE" -- "PENDENTE" AreaAtuacao : A05 atua em
+    Psicologo "1" -- "PENDENTE" Vinculo : A06 participa
+    Paciente "1" -- "PENDENTE" Vinculo : A07 participa
+    Psicologo "1" -- "PENDENTE" Agenda : A08 titular
+    Agenda "1" -- "PENDENTE" Disponibilidade : A09 organiza
+    Agenda "PENDENTE" -- "PENDENTE" Agendamento : A10 apresenta compromissos
+    Psicologo "1" -- "PENDENTE" Agendamento : A11 profissional agendado
+    Paciente "1" -- "PENDENTE" Agendamento : A12 paciente agendado
+    Psicologo "1" -- "PENDENTE" Atendimento : A13 profissional responsavel
+    Paciente "1" -- "PENDENTE" Atendimento : A14 paciente atendido
+    Agendamento "PENDENTE" -- "PENDENTE" Atendimento : A15 corresponde a sessao
+    Usuario "1" -- "PENDENTE" RegistroAuditoria : A16 responsavel pela operacao
+
+    note "ASSINATURAS PROVISORIAS: tipos/retornos omitidos continuam pendentes. Contratos declarados nao demonstram mecanismos. PENDENTE nao e multiplicidade UML."
+    note for Usuario "Conta de acesso. associarPerfil: suporte no cadastro RF-003; manutencao posterior pendente. Atualizacao e tipos provisorios."
+    note for Perfil "Perfil de acesso. adicionarPermissao e removerPermissao: REFINAMENTOS A VALIDAR; remover revoga associacao, nao exclui Permissao."
+    note for Vinculo "estaAutorizado: PROPOSTA DERIVADA; criterio/representacao pendentes. Formalizar tem contrato condicionado; sem estado ATIVO presumido."
+    note for Agenda "adicionarDisponibilidade: criacao/validacao temporal incompletas. verificarDisponibilidade: REFINAMENTO, nao substitui consulta RF-024. A08/A09 a validar."
+    note for Agendamento "confirmar(): ASSINATURA INCOMPLETA. cancelar e solicitar: ASSINATURAS PROVISORIAS, contratos condicionados PC-07/PC-12. Sem novos parametros."
+    note for Paciente "alterarSituacao e atualizacoes: ASSINATURAS PROVISORIAS; estados, campos e contratos pendentes."
+    note for Psicologo "Atualizacao e consultas: campos/retornos provisorios. Administrador e papel, sem subclasses por permissao."
+    note for Atendimento "registrar: ASSINATURA PROVISORIA. Contrato contempla RN-003/RN-006/RN-007; conteudo e contextoSessao pendentes."
+    note for RegistroAuditoria "Imutabilidade exigida: escopo 3.7/RF-032/RN-014. Campos/responsavel imutaveis sao concretizacao OO. registrar: tipos/colaboracao pendentes."

@@ -1,0 +1,31 @@
+classDiagram
+    direction TB
+    %% Representacao adaptada de objetos: cada caixa e uma instancia, nao uma classe nova.
+    %% Rotulo = nomeInstancia : Classe; membros = slots atributo = valor ilustrativo.
+    %% Recorte parcial: omissao nao significa inexistencia, nulo ou zero.
+    class contaProfissionalCenario["contaProfissionalCenario : Usuario"] {
+        identificacao = CONTA-FICTICIA-P01
+    }
+    class profissionalCenario["profissionalCenario : Psicologo"]
+    class contaPacienteCenario["contaPacienteCenario : Usuario"] {
+        identificacao = CONTA-FICTICIA-C01
+    }
+    class pacienteCenario["pacienteCenario : Paciente"]
+    class vinculoCenario["vinculoCenario : Vinculo"]
+    class agendaCenario["agendaCenario : Agenda"]
+    class disponibilidadeCenario["disponibilidadeCenario : Disponibilidade"] {
+        periodo = FAIXA-FICTICIA 2040-08-17 09h00 a 10h00
+    }
+
+    contaProfissionalCenario -- profissionalCenario : A03
+    contaPacienteCenario -- pacienteCenario : A04
+    profissionalCenario -- vinculoCenario : A06
+    pacienteCenario -- vinculoCenario : A07
+    profissionalCenario -- agendaCenario : A08
+    agendaCenario -- disponibilidadeCenario : A09
+
+    note "FOTOGRAFIA FICTICIA PARCIAL. Caixas sao objetos das classes existentes. Contagens observadas nao definem multiplicidades."
+    note for contaProfissionalCenario "Identificacao ilustrativa, sem tipo/formato aprovado. Credencial, situacao e perfis omitidos da vista."
+    note for contaPacienteCenario "Identificacao ilustrativa. Conta separada do cadastro; nao representa login ou acesso autorizado."
+    note for vinculoCenario "Vinculo formalizado no cenario. Sem atributo de estado nem resultado de estaAutorizado."
+    note for disponibilidadeCenario "Periodo ficticio, sem fixar tipo, formato, fuso, recorrencia ou duracao padrao. Nao comprova horario livre."
