@@ -2,9 +2,9 @@
 
 Esta pasta armazena os diagramas UML e seus arquivos editáveis.
 
-## Convenção de entrega dos diagramas (Fase 5)
+## Convenção de entrega dos diagramas (Fases 5 e 6)
 
-Todo diagrama entregue vem em **dois formatos**, com o **mesmo nome-base**:
+Todo diagrama entregue vem em **três formatos**, com o **mesmo nome-base**:
 
 | Formato | Arquivo | Papel | Quem abre |
 |---|---|---|---|
@@ -21,7 +21,13 @@ Regras:
 3. arquivo de **proposta** do Integrante 2 começa com `proposta-I2-` e **não
    substitui** o artefato oficial do Integrante 3 — convém os dois;
 4. os PDF exportados usam fonte **Arial** e página com o tamanho do desenho
-   (sem margem), para que o diagrama entre legível no dossiê.
+   (sem margem), para que o diagrama entre legível no dossiê;
+5. os diagramas comportamentais da Fase 6 usam **hints de layout** em
+   comentários Mermaid, no formato `%% pos: <id> <x> <y>` (posição do centro
+   do nó, em pixels). O Mermaid os ignora como comentário — o renderizador
+   offline do repositório os usa para posicionar os nós de forma estável.
+   O `id` da hint **tem de existir** no diagrama; se não existir, o nó cai no
+   posicionamento automático.
 
 ## Inventário
 
@@ -34,6 +40,28 @@ Regras:
 | Classes (proposta) | CLS-001 v2 | `Classes/proposta-I2-diagrama-classes-v2.mmd` | `Classes/proposta-I2-diagrama-classes-v2.drawio.xml` | `Classes/proposta-I2-diagrama-classes-v2.pdf` | **proposta** do Integrante 2 (Fase 5) |
 | Objetos | OBJ-001 | `Objetos/diagrama-objetos.mmd` | `Objetos/diagrama-objetos.drawio.xml` | `Objetos/diagrama-objetos.pdf` | oficial do Integrante 3 |
 | Objetos (proposta) | OBJ-002 | `Objetos/proposta-I2-diagrama-objetos-v2.mmd` | `Objetos/proposta-I2-diagrama-objetos-v2.drawio.xml` | `Objetos/proposta-I2-diagrama-objetos-v2.pdf` | **proposta** do Integrante 2 (Fase 5) |
+| Sequência — autenticar | SEQ-001 | `Sequências/proposta-I2-sequencia-seq-001-autenticar.mmd` | `Sequências/proposta-I2-sequencia-seq-001-autenticar.drawio.xml` | `Sequências/proposta-I2-sequencia-seq-001-autenticar.pdf` | **proposta** do Integrante 2 (Fase 6) · UC-001 |
+| Sequência — agendar | SEQ-002 | `Sequências/proposta-I2-sequencia-seq-002-agendar.mmd` | `Sequências/proposta-I2-sequencia-seq-002-agendar.drawio.xml` | `Sequências/proposta-I2-sequencia-seq-002-agendar.pdf` | **proposta** do Integrante 2 (Fase 6) · UC-025 |
+| Sequência — cancelar/confirmar | SEQ-003 | `Sequências/proposta-I2-sequencia-seq-003-cancelar-confirmar.mmd` | `Sequências/proposta-I2-sequencia-seq-003-cancelar-confirmar.drawio.xml` | `Sequências/proposta-I2-sequencia-seq-003-cancelar-confirmar.pdf` | **proposta** do Integrante 2 (Fase 6) · UC-027 |
+| Atividades | ATV-001 | `Atividade/proposta-I2-atividade-atv-001.mmd` | `Atividade/proposta-I2-atividade-atv-001.drawio.xml` | `Atividade/proposta-I2-atividade-atv-001.pdf` | **proposta** do Integrante 2 (Fase 6) |
+| Comunicação | COM-001 | `Comunicação/proposta-I2-comunicacao-com-001.mmd` | `Comunicação/proposta-I2-comunicacao-com-001.drawio.xml` | `Comunicação/proposta-I2-comunicacao-com-001.pdf` | **proposta** do Integrante 2 (Fase 6) |
+| Estados | EST-001 | `Estados/proposta-I2-estados-est-001.mmd` | `Estados/proposta-I2-estados-est-001.drawio.xml` | `Estados/proposta-I2-estados-est-001.pdf` | **proposta** do Integrante 2 (Fase 6) |
+
+### Especificações dos diagramas comportamentais (Fase 6)
+
+Cada diagrama da Fase 6 tem um texto de especificação com o **mesmo nome-base**,
+na mesma pasta:
+
+| Especificação | Arquivo |
+|---|---|
+| Sequências (SEQ-001/002/003) | `Sequências/proposta-I2-especificacao-sequencias.md` |
+| Atividades (ATV-001) | `Atividade/proposta-I2-especificacao-atividade.md` |
+| Comunicação (COM-001) | `Comunicação/proposta-I2-especificacao-comunicacao.md` |
+| Estados (EST-001) | `Estados/proposta-I2-especificacao-estados.md` |
+
+Rastreabilidade e revisão da fase: `06-rastreabilidade/matriz-rastreabilidade-fase6.md`
+e `01-planejamento/revisoes/FASE6-REV-I2-revisao-comportamental.md`.
+Texto pronto para as seções 21 a 24 do dossiê: `07-dossie/secoes/fase6-secao-21-24.md`.
 
 ## Convenções de leitura
 
@@ -51,9 +79,23 @@ Regras:
 - **Valores fictícios:** todo valor de objeto é inventado
   (`CONTA-FICTICIA-*`, `FAIXA-FICTICIA-*`), conforme DEC-005 — nenhum dado
   real de paciente.
+- **Barras de paralelismo (Fase 6):** a forma `[||]` do Mermaid é desenhada
+  como **barra vertical** (fork/join) no diagrama de atividades.
+- **Formas do diagrama de comunicação (Fase 6):** `[ ]` entidade de domínio,
+  `{ }` serviço de aplicação, `( )` fronteira externa (ator ou serviço
+  externo).
 
-## Pastas ainda vazias (Fases 5 e 6)
+## Fases 5 e 6 — o que ainda está em aberto
 
-`Atividade`, `Comunicação`, `Estados` e `Sequências` aguardam os diagramas
-correspondentes. `Estados` e `Sequências` dependem do fechamento das
-multiplicidades e das operações propostas na Fase 5.
+As pastas `Atividade`, `Comunicação`, `Estados` e `Sequências` **não estão mais
+vazias**: os seis diagramas comportamentais da Fase 6 já foram entregues.
+
+O que segue **depende de decisão do grupo** e não é bloqueio de entrega, mas de
+fechamento:
+
+| Pendência | Efeito nos diagramas | Quem fecha |
+|---|---|---|
+| Multiplicidades `PENDENTE` no diagrama de classes oficial | os diagramas da Fase 6 **não dependem** de multiplicidades (a exclusividade de horário é citada por RN/RF) | grupo + Integrante 3 |
+| Incorporação das operações `OP-01…OP-22` e das situações §6 da Fase 5 pelo Integrante 3 | enquanto não houver, os diagramas comportamentais estão apoiados no modelo proposto | Integrante 3 |
+| DEC-009 (canal de notificação), DEC-010 (inovação/"encaixe"), DEC-012 (prazo e ator do cancelamento) | notificação é fronteira externa condicional; a sequência do "encaixe" não foi produzida (lacuna registrada) | grupo |
+| P-01 (mecanismo da confirmação), P-02 (prazo), P-05 (modelo do horário) | as guardas `[slot livre]` e `[prazo]` e a reserva de slot ficam sem valor fechado | grupo |
