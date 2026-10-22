@@ -1,0 +1,153 @@
+%% =====================================================================
+%% ATV-001 - Diagrama de atividades: ciclo do agendamento - FASE 6
+%% PROPOSTA DO INTEGRANTE 2 (casos de uso e diagramas comportamentais).
+%% Natureza: PROPOSTA. Nao substitui artefato oficial do grupo.
+%% Fonte da verdade do CONTEUDO.
+%%
+%% Pistas (swimlanes): Paciente | Sistema | Psicologo | Auditoria e notificacao.
+%% Decisoes: d1 (existe horario?), d2 (vinculo e horario validos?), d3
+%%   (cancelamento aceito?), d5 (a sessao foi realizada?).
+%% Paralelismo: 3 forks - (a) auditoria | notificacao apos a confirmacao,
+%%   (b) liberacao do horario | auditoria apos o cancelamento,
+%%   (c) conclusao do agendamento | auditoria apos o atendimento.
+%% A notificacao do CANCELAMENTO e sequencial, depois do join do bloco (b):
+%%   ela e pos-commit (TRS-02 do I4) e por isso nao corre em paralelo com a
+%%   liberacao do horario nem com a auditoria.
+%%
+%% Rastreabilidade: OP-11, OP-13, OP-14, OP-15, OP-17, OP-18, OP-20, OP-22,
+%%   AP-02, AP-03, AP-04; RN-003, RN-005, RN-009, RN-010, RN-012, RN-013;
+%%   RF-024, RF-025, RF-026, RF-027, RF-030, RF-032; UC-024, UC-025, UC-027.
+%%
+%% Convencao de layout: "%% pos: ID x y" -> posicao do centro do no (px).
+%% =====================================================================
+%% label: ATV-001 - Diagrama de atividades: ciclo do agendamento
+%% sub: Fonte editavel: 03-uml/Atividade/proposta-I2-atividade-atv-001.mmd | PROPOSTA do Integrante 2 (Fase 6) | 4 decisoes, 3 blocos paralelos, 4 pistas
+
+%% pos: ini 160 140
+%% pos: solicitar 160 230
+%% pos: escolher 160 480
+%% pos: comparecer 160 1470
+%% pos: consultar 520 300
+%% pos: d1 520 385
+%% pos: validar 520 560
+%% pos: d2 520 645
+%% pos: criar 520 730
+%% pos: confirmar 520 810
+%% pos: semHor 760 480
+%% pos: fimSem 760 570
+%% pos: recusar 760 700
+%% pos: fimRec 760 780
+%% pos: d3 520 1100
+%% pos: cancelar 760 1160
+%% pos: manter 520 1210
+%% pos: fork2 760 1240
+%% pos: liberar 760 1350
+%% pos: fimCanc 760 1450
+%% pos: d5 520 1500
+%% pos: falta 520 1700
+%% pos: fimFalta 520 1940
+%% pos: atender 1000 1500
+%% pos: fork3 1000 1590
+%% pos: concluir 1000 1670
+%% pos: fimReal 1000 1750
+%% pos: fork1 1340 880
+%% pos: aud1 1270 960
+%% pos: notif1 1490 960
+%% pos: join1 1340 1060
+%% pos: aud2 1340 1290
+%% pos: join2 1340 1370
+%% pos: notif2 1340 1450
+%% pos: aud3 1340 1670
+%% pos: join3 1340 1750
+%% pos: aud4 1340 1860
+
+flowchart TD
+    subgraph lanePaciente["Paciente"]
+        ini([Início])
+        solicitar[Solicitar agendamento]
+        escolher[Selecionar horário]
+        comparecer[Comparecer à sessão]
+    end
+
+    subgraph laneSistema["Sistema (aplicação e domínio)"]
+        consultar[Consultar horários (OP-11)]
+        d1{Há horários?}
+        validar[Validar vínculo e horário]
+        d2{Vínculo OK?}
+        criar[Criar agendamento]
+        confirmar[Confirmar (OP-13)]
+        semHor[Sem horários (A1)]
+        recusar[Recusar (E1)]
+        d3{Cancelamento?}
+        cancelar[Cancelar (OP-14)]
+        manter[Manter agendamento]
+        liberar[Liberar horário]
+        d5{Sessão realizada?}
+        falta[Registrar falta (OP-18)]
+    end
+
+    subgraph lanePsicologo["Psicólogo"]
+        atender[Registrar atendimento (OP-20)]
+        concluir[Concluir (OP-17)]
+    end
+
+    subgraph laneAuditoria["Auditoria e notificação"]
+        aud1[Auditar confirmação (RN-009)]
+        notif1[Notificar confirmação (AP-04)]
+        aud2[Auditar cancelamento (RN-009)]
+        notif2[Notificar cancelamento (AP-04)]
+        aud3[Auditar conclusão (RN-009)]
+        aud4[Auditar falta (RN-009)]
+    end
+
+    fimSem([Fim])
+    fimRec([Fim])
+    fimCanc([Fim])
+    fimReal([Fim])
+    fimFalta([Fim])
+    fork1[||]
+    fork2[||]
+    fork3[||]
+    join1[||]
+    join2[||]
+    join3[||]
+
+    ini --> solicitar
+    solicitar --> consultar
+    consultar --> d1
+    d1 -->|Não| semHor
+    semHor --> fimSem
+    d1 -->|Sim| escolher
+    escolher --> validar
+    validar --> d2
+    d2 -->|Não| recusar
+    recusar --> fimRec
+    d2 -->|Sim| criar
+    criar --> confirmar
+    confirmar --> fork1
+    fork1 -->|par 1| aud1
+    fork1 -->|par 2| notif1
+    aud1 --> join1
+    notif1 --> join1
+    join1 --> d3
+    d3 -->|Sim| cancelar
+    cancelar --> fork2
+    fork2 -->|par 1| liberar
+    fork2 -->|par 2| aud2
+    liberar --> join2
+    aud2 --> join2
+    join2 --> notif2
+    notif2 --> fimCanc
+    d3 -->|Não| manter
+    manter --> comparecer
+    comparecer --> d5
+    d5 -->|Sim| atender
+    atender --> fork3
+    fork3 -->|par 1| concluir
+    fork3 -->|par 2| aud3
+    concluir --> join3
+    aud3 --> join3
+    join3 --> fimReal
+    d5 -->|Não| falta
+    falta --> aud4
+    aud4 --> fimFalta

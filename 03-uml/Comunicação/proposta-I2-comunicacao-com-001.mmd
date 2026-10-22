@@ -1,0 +1,73 @@
+%% =====================================================================
+%% COM-001 - Diagrama de comunicacao: ciclo do agendamento - FASE 6
+%% PROPOSTA DO INTEGRANTE 2 (casos de uso e diagramas comportamentais).
+%% Natureza: PROPOSTA. Nao substitui artefato oficial do grupo.
+%% Fonte da verdade do CONTEUDO.
+%%
+%% Cenario: "Agendar e concluir atendimento" (UC-024 + UC-025 + UC-027),
+%% o mesmo cenario coberto por ATV-001, para permitir a comparacao cruzada
+%% exigida pelo plano (secao 6.1 - comparar todos os diagramas entre si).
+%%
+%% Objetos (colaboradores) e suas naturezas:
+%%   [ ] entidade de dominio    { } servico de aplicacao   ( ) fronteira
+%%   externo (ator ou servico externo).
+%% Hub: ServicoAgenda (AP-03) - coordena regra, auditoria e notificacao.
+%%
+%% As mensagens sao numeradas de 1 a 14 na ordem de ocorrencia. Retornos
+%% usam o mesmo vinculo e por isso nao geram nova seta.
+%%
+%% Rastreabilidade das mensagens:
+%%   OP-04 Usuario.consultarPermitidos | OP-11 Agenda.consultarHorarios
+%%   OP-22 Vinculo.estaAtivo | Agendamento.solicitar/confirmar/cancelar
+%%   OP-20 Atendimento.registrar | AP-02 ServicoAuditoria |
+%%   AP-04 ServicoNotificacao
+%% Regras: RN-003, RN-005, RN-009, RN-010, RN-013
+%% Requisitos: RF-024, RF-025, RF-026, RF-027, RF-030, RF-032
+%% Casos: UC-024, UC-025, UC-027
+%%
+%% Convencao de layout: "%% pos: ID x y" -> posicao do centro do no (px).
+%% =====================================================================
+%% label: COM-001 - Diagrama de comunicacao: ciclo do agendamento
+%% sub: Fonte editavel: 03-uml/Comunicacao/proposta-I2-comunicacao-com-001.mmd | PROPOSTA do Integrante 2 (Fase 6) | 12 colaboradores, 14 mensagens, hub ServicoAgenda (AP-03)
+
+%% pos: paciente 200 180
+%% pos: psicologo 200 560
+%% pos: usuario 200 940
+%% pos: servicoAgenda 700 560
+%% pos: vinculo 960 160
+%% pos: agenda 960 400
+%% pos: agendamento 960 680
+%% pos: atendimento 960 900
+%% pos: disponibilidade 1230 400
+%% pos: servicoAuditoria 1230 640
+%% pos: registroAuditoria 1230 800
+%% pos: servicoNotificacao 1230 960
+
+flowchart LR
+    paciente([Paciente])
+    psicologo([Psicólogo])
+    usuario[Usuario]
+    servicoAgenda{{ServicoAgenda}}
+    vinculo[Vinculo]
+    agenda[Agenda]
+    agendamento[Agendamento]
+    atendimento[Atendimento]
+    disponibilidade[Disponibilidade]
+    servicoAuditoria{{ServicoAuditoria}}
+    registroAuditoria[RegistroAuditoria]
+    servicoNotificacao([ServicoNotificacao])
+
+    paciente -->|1 solicitar(horario) [RF-025]| servicoAgenda
+    servicoAgenda -->|2 consultarPermitidos(solicitante) [OP-04]| usuario
+    servicoAgenda -->|3 estaAtivo() [OP-22]| vinculo
+    servicoAgenda -->|4 consultarHorarios(paciente, periodo) [OP-11]| agenda
+    agenda -->|5 slots livres [A09]| disponibilidade
+    servicoAgenda -->|6 verificarDisponibilidade(horario) [RN-005]| agenda
+    servicoAgenda -->|7 solicitar(psicologo, paciente, horario) [RF-025]| agendamento
+    agendamento -->|8 confirmar(solicitante) [OP-13 / RN-013]| servicoAgenda
+    servicoAgenda -->|9 registrar(AGENDAMENTO_CONFIRMADO) [AP-02]| servicoAuditoria
+    servicoAuditoria -->|10 registrar(responsavel, data, hora, operacao) [RF-032]| registroAuditoria
+    servicoAgenda -->|11 notificar(confirmacao) [AP-04]| servicoNotificacao
+    servicoAgenda -->|12 cancelar(solicitante, motivo) [OP-14]| agendamento
+    psicologo -->|13 concluir(agendamento) [RF-030]| servicoAgenda
+    servicoAgenda -->|14 registrar(agendamento, contextoSessao) [OP-20]| atendimento

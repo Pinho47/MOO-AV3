@@ -1,0 +1,57 @@
+%% =====================================================================
+%% SEQ-002 - Agendar atendimento (UC-025 + UC-024/RF-024) - FASE 6
+%% PROPOSTA DO INTEGRANTE 2 (casos de uso e diagramas comportamentais).
+%% Natureza: PROPOSTA. Nao substitui artefato oficial do grupo.
+%% Fonte da verdade do CONTEUDO.
+%%
+%% Rastreabilidade das mensagens:
+%%   AP-03 ServicoAgenda (coordena regra, auditoria e notificacao)
+%%   AP-02 ServicoAuditoria.registrar   |  AP-04 ServicoNotificacao.notificar
+%%   OP-11 Agenda.consultarHorariosDisponiveis | OP-22 Vinculo.estaAtivo
+%%   Agendamento.solicitar | Agenda.verificarDisponibilidade | OP-13 confirmar
+%% Regras: RN-003, RN-005, RN-009, RN-010, RN-013
+%% Requisitos: RF-024, RF-025, RF-026, RF-032  Casos: UC-024, UC-025
+%% =====================================================================
+%% label: SEQ-002 - Agendar atendimento (UC-025)
+%% sub: Fonte editavel: 03-uml/Sequencias/proposta-I2-sequencia-seq-002-agendar.mmd | PROPOSTA do Integrante 2 (Fase 6) | confirmacao automatica depende de RN-013/P-01; notificacao depende de DEC-009
+
+sequenceDiagram
+    actor Ator as Ator (Paciente)
+    participant ServicoAgenda as ServicoAgenda
+    participant Vinculo as Vinculo
+    participant Agenda as Agenda
+    participant Agendamento as Agendamento
+    participant ServicoAuditoria as ServicoAuditoria
+    participant RegistroAuditoria as RegistroAuditoria
+    participant ServicoNotificacao as ServicoNotificacao
+
+    Ator->>ServicoAgenda: consultarHorariosDisponiveis(periodo) [RF-024 / UC-024]
+    ServicoAgenda->>Vinculo: estaAtivo() [OP-22 / RN-003]
+    Vinculo-->>ServicoAgenda: true - vinculo autorizado
+    ServicoAgenda->>Agenda: consultarHorariosDisponiveis(paciente, periodo) [OP-11]
+    Agenda-->>ServicoAgenda: lista de Disponibilidade livres
+
+    alt Ha horarios disponiveis
+        ServicoAgenda-->>Ator: horarios disponiveis
+        Ator->>ServicoAgenda: solicitar(psicologo, paciente, horario) [RF-025]
+        ServicoAgenda->>Agenda: verificarDisponibilidade(horario) [RN-005 / RN-010]
+        Agenda-->>ServicoAgenda: true
+        alt Horario ainda disponivel
+            ServicoAgenda->>Agendamento: solicitar(psicologo, paciente, horario, solicitante)
+            Agendamento-->>ServicoAgenda: agendamento (SOLICITADO)
+            ServicoAgenda->>Agendamento: confirmar(solicitante) [OP-13 / RN-013]
+            Agendamento-->>ServicoAgenda: agendamento (CONFIRMADO)
+            ServicoAgenda->>ServicoAuditoria: registrar("AGENDAMENTO_CONFIRMADO", responsavel, detalhes) [AP-02]
+            ServicoAuditoria->>RegistroAuditoria: registrar(responsavel, data, hora, operacao) [RF-032]
+            ServicoAgenda->>ServicoNotificacao: notificar(confirmacao) [AP-04 - DEC-009 pendente]
+            ServicoNotificacao-->>ServicoAgenda: enviado | falha de entrega
+            ServicoAgenda-->>Ator: agendamento confirmado (UC-025)
+        else E1 - Conflito de horario
+            ServicoAgenda-->>Ator: horario indisponivel - sugerir outro horario
+        end
+    else Nenhum horario disponivel (A1 de UC-025)
+        ServicoAgenda-->>Ator: informar que nao ha horarios disponiveis
+    end
+
+    note over Agenda,Agendamento: Com o modelo de slot discreto (P-05), a reserva do slot e interna a Agendamento.solicitar e vira a ligacao A17 (Disponibilidade - Agendamento). Sem decisao do grupo, a reserva nao e desenhavel.
+    note over ServicoNotificacao: Notificacao e pos-commit (TRS-02 do Integrante 4): nao pode entrar na transacao que grava o agendamento. Enquanto DEC-009 nao for decidida, esta e uma fronteira externa (interface), nao uma entidade de dominio.

@@ -1,0 +1,37 @@
+%% =====================================================================
+%% EST-001 - Maquina de estados do Agendamento - FASE 6
+%% PROPOSTA DO INTEGRANTE 2 (casos de uso e diagramas comportamentais).
+%% Natureza: PROPOSTA. Nao substitui artefato oficial do grupo.
+%% Fonte da verdade do CONTEUDO.
+%%
+%% Rastreabilidade:
+%%   Agendamento.solicitar (RF-025), OP-13 confirmar (RN-013), OP-14 cancelar
+%%   (RN-012), OP-17 concluir (RF-030), OP-18 registrarFalta (plano 5.4)
+%%   INC-13 (Integrante 4): NAO_COMPARECEU so e alcancavel a partir de
+%%   CONFIRMADO.
+%% Situacoes: enum SituacaoAgendamento do CLS-001 v2 (Fase 5).
+%%
+%% Convencao de layout: "%% pos: ID x y" -> posicao do centro do estado (px).
+%% =====================================================================
+%% label: EST-001 - Maquina de estados de Agendamento
+%% sub: Fonte editavel: 03-uml/Estados/proposta-I2-estados-est-001.mmd | PROPOSTA do Integrante 2 (Fase 6) | situacoes do enum SituacaoAgendamento (CLS-001 v2)
+
+%% pos: SOLICITADO 420 150
+%% pos: CONFIRMADO 720 150
+%% pos: REALIZADO 1040 150
+%% pos: CANCELADO 720 360
+%% pos: NAO_COMPARECEU 1040 360
+
+stateDiagram-v2
+    [*] --> SOLICITADO : solicitar
+    SOLICITADO --> CONFIRMADO : confirmar [slot livre]
+    SOLICITADO --> CANCELADO : cancelar [prazo]
+    CONFIRMADO --> CANCELADO : cancelar [prazo]
+    CONFIRMADO --> REALIZADO : concluir [atendimento]
+    CONFIRMADO --> NAO_COMPARECEU : registrarFalta
+    REALIZADO --> [*]
+    CANCELADO --> [*]
+    NAO_COMPARECEU --> [*]
+
+    note left of SOLICITADO : Situacao inicial: criada por Agendamento.solicitar (RF-025). A confirmacao e automatica no mesmo ato (RN-013, depende de P-01) e leva o agendamento a CONFIRMADO.
+    note right of REALIZADO : Guardas: cancelar so vale de SOLICITADO ou CONFIRMADO e dentro do prazo (OP-15 / RN-012, DEC-012 pendente); registrarFalta so vale de CONFIRMADO (INC-13). Realizado, Cancelado e Nao Compareceu sao terminais.

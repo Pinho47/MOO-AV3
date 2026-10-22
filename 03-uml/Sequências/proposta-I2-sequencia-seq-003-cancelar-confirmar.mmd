@@ -1,0 +1,72 @@
+%% =====================================================================
+%% SEQ-003 - Cancelar / confirmar / concluir agendamento (UC-027) - FASE 6
+%% PROPOSTA DO INTEGRANTE 2 (casos de uso e diagramas comportamentais).
+%% Natureza: PROPOSTA. Nao substitui artefato oficial do grupo.
+%% Fonte da verdade do CONTEUDO.
+%%
+%% Rastreabilidade das mensagens:
+%%   AP-03 ServicoAgenda (coordenacao) | AP-02 ServicoAuditoria.registrar
+%%   AP-04 ServicoNotificacao.notificar
+%%   OP-19 Agendamento.consultarMeus | OP-15 podeSerCancelado | OP-14 cancelar
+%%   OP-13 confirmar | OP-16 estaCancelada | OP-17 concluir | OP-18 registrarFalta
+%%   OP-20 Atendimento.registrar
+%% Regras: RN-006, RN-009, RN-012, RN-013
+%% Requisitos: RF-026, RF-027, RF-028, RF-030, RF-032  Casos: UC-027
+%% =====================================================================
+%% label: SEQ-003 - Cancelar / confirmar agendamento (UC-027)
+%% sub: Fonte editavel: 03-uml/Sequencias/proposta-I2-sequencia-seq-003-cancelar-confirmar.mmd | PROPOSTA do Integrante 2 (Fase 6) | prazo de cancelamento depende de DEC-012/P-02; notificacao depende de DEC-009
+
+sequenceDiagram
+    actor Ator as Ator (Paciente ou Psicologo)
+    participant ServicoAgenda as ServicoAgenda
+    participant Agendamento as Agendamento
+    participant Atendimento as Atendimento
+    participant ServicoAuditoria as ServicoAuditoria
+    participant RegistroAuditoria as RegistroAuditoria
+    participant ServicoNotificacao as ServicoNotificacao
+
+    Ator->>ServicoAgenda: consultarMeus(solicitante) [OP-19 / RF-028]
+    ServicoAgenda-->>Ator: agendamentos do ator
+    Ator->>ServicoAgenda: cancelar(agendamento, motivo) [RF-027 / UC-027]
+    ServicoAgenda->>Agendamento: podeSerCancelado() [OP-15 / RN-012]
+    Agendamento-->>ServicoAgenda: true
+    alt Pode ser cancelado
+        ServicoAgenda->>Agendamento: cancelar(solicitante, motivo) [OP-14]
+        Agendamento-->>ServicoAgenda: agendamento (CANCELADO)
+        ServicoAgenda->>ServicoAuditoria: registrar(\"AGENDAMENTO_CANCELADO\", responsavel, detalhes) [AP-02]
+        ServicoAuditoria->>RegistroAuditoria: registrar(responsavel, data, hora, operacao) [RF-032]
+        ServicoAgenda->>ServicoNotificacao: notificar(cancelamento) [AP-04 - DEC-009 pendente]
+        ServicoNotificacao-->>ServicoAgenda: enviado | falha de entrega
+        ServicoAgenda-->>Ator: agendamento cancelado (UC-027)
+    else E1 - Agendamento ja realizado ou ja cancelado
+        ServicoAgenda-->>Ator: recusa - agendamento nao cancelavel (E1)
+    end
+
+    opt RF-026 - Confirmacao do agendamento (automatica na solicitacao)
+        ServicoAgenda->>Agendamento: confirmar(solicitante) [OP-13 / RN-013]
+        Agendamento-->>ServicoAgenda: agendamento (CONFIRMADO)
+        ServicoAgenda->>ServicoAuditoria: registrar(\"AGENDAMENTO_CONFIRMADO\", responsavel, detalhes) [AP-02]
+        ServicoAuditoria->>RegistroAuditoria: registrar(responsavel, data, hora, operacao) [RF-032]
+    end
+
+    opt RF-030 - Conclusao da sessao realizada
+        Ator->>ServicoAgenda: concluir(agendamento)
+        ServicoAgenda->>Agendamento: estaCancelada() [OP-16 / RN-006]
+        Agendamento-->>ServicoAgenda: false
+        ServicoAgenda->>Agendamento: concluir(solicitante) [OP-17]
+        Agendamento-->>ServicoAgenda: agendamento (REALIZADO)
+        ServicoAgenda->>Atendimento: registrar(agendamento, contextoSessao, solicitante) [OP-20]
+        Atendimento-->>ServicoAgenda: atendimento registrado
+        ServicoAgenda->>ServicoAuditoria: registrar(\"AGENDAMENTO_CONCLUIDO\", responsavel, detalhes) [AP-02]
+        ServicoAuditoria->>RegistroAuditoria: registrar(responsavel, data, hora, operacao) [RF-032]
+    end
+
+    opt Plano 5.4 / INC-13 - Nao compareceu (a partir de CONFIRMADO)
+        Ator->>ServicoAgenda: registrarFalta(agendamento)
+        ServicoAgenda->>Agendamento: registrarFalta(solicitante) [OP-18]
+        Agendamento-->>ServicoAgenda: agendamento (NAO_COMPARECEU)
+        ServicoAgenda->>ServicoAuditoria: registrar(\"AGENDAMENTO_NAO_COMPARECEU\", responsavel, detalhes) [AP-02]
+        ServicoAuditoria->>RegistroAuditoria: registrar(responsavel, data, hora, operacao) [RF-032]
+    end
+
+    note over Ator,ServicoNotificacao: Os tres blocos opt sao fluxos alternativos do mesmo agendamento, nao etapas obrigatorias em sequencia. A guarda de prazo (RN-012) depende de DEC-012/P-02, ainda nao decidida pelo grupo.

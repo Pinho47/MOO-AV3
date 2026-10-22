@@ -1,0 +1,70 @@
+%% =====================================================================
+%% SEQ-001 - Autenticar usuario (UC-001) - FASE 6
+%% PROPOSTA DO INTEGRANTE 2 (casos de uso e diagramas comportamentais).
+%% Natureza: PROPOSTA. Nao substitui artefato oficial do grupo.
+%% Fonte da verdade do CONTEUDO. O renderizador offline do repositorio
+%% le tambem as hints de layout "%% pos:" (comentario Mermaid valido).
+%%
+%% Rastreabilidade das mensagens:
+%%   AP-01 ServicoAutenticacao.autenticar / criarSessao  (Fase 5, secao 5.2)
+%%   AP-02 ServicoAuditoria.registrar                   (Fase 5, secao 5.2)
+%%   OP-01 Usuario.podeAutenticar   OP-02 Usuario.confereCredencial
+%%   IR-01 RepositorioUsuario.obterPorIdentificacao    (infraestrutura, Fase 7)
+%%   IR-02 RepositorioAutorizacao.obterPermissoes      (infraestrutura, Fase 7)
+%% Regras: RN-001 (bloqueio), RN-002 (protecao de senha), RN-009/RNF-004 (auditoria)
+%% Requisitos: RF-001, RF-002, RF-032   Casos: UC-001
+%% =====================================================================
+%% label: SEQ-001 - Autenticar usuario (UC-001)
+%% sub: Fonte editavel: 03-uml/Sequencias/proposta-I2-sequencia-seq-001-autenticar.mmd | PROPOSTA do Integrante 2 (Fase 6) | depende de OP-01/OP-02 (Fase 5)
+
+sequenceDiagram
+    actor Ator as Ator (Paciente, Psicologo ou Administrador)
+    participant ServicoAutenticacao as ServicoAutenticacao
+    participant RepositorioUsuario as RepositorioUsuario
+    participant Usuario as Usuario
+    participant RepositorioAutorizacao as RepositorioAutorizacao
+    participant ServicoAuditoria as ServicoAuditoria
+    participant RegistroAuditoria as RegistroAuditoria
+
+    Ator->>ServicoAutenticacao: autenticar(identificacao, senha) [AP-01]
+    ServicoAutenticacao->>RepositorioUsuario: obterPorIdentificacao(identificacao) [IR-01]
+    RepositorioUsuario-->>ServicoAutenticacao: usuario | conta inexistente
+
+    alt E1 - Conta inexistente
+        ServicoAutenticacao->>ServicoAuditoria: registrar("LOGIN_NEGADO", responsavel, detalhes) [AP-02]
+        ServicoAuditoria->>RegistroAuditoria: registrar(responsavel, data, hora, operacao) [RF-032]
+        ServicoAutenticacao-->>Ator: acesso recusado - credenciais invalidas (E1)
+    else E2 - Conta bloqueada ou inativa
+        ServicoAutenticacao->>Usuario: podeAutenticar() [OP-01]
+        Usuario-->>ServicoAutenticacao: false
+        ServicoAutenticacao->>ServicoAuditoria: registrar("LOGIN_NEGADO", responsavel, detalhes) [AP-02]
+        ServicoAuditoria->>RegistroAuditoria: registrar(responsavel, data, hora, operacao) [RF-032]
+        ServicoAutenticacao-->>Ator: acesso recusado - conta bloqueada (E2)
+    else E1 - Credencial invalida
+        ServicoAutenticacao->>Usuario: podeAutenticar() [OP-01]
+        Usuario-->>ServicoAutenticacao: true
+        ServicoAutenticacao->>Usuario: confereCredencial(credencial) [OP-02]
+        Usuario-->>ServicoAutenticacao: false
+        ServicoAutenticacao->>ServicoAuditoria: registrar("LOGIN_NEGADO", responsavel, detalhes) [AP-02]
+        ServicoAuditoria->>RegistroAuditoria: registrar(responsavel, data, hora, operacao) [RF-032]
+        ServicoAutenticacao-->>Ator: acesso recusado - credenciais invalidas (E1)
+    else Sucesso - credenciais validas
+        ServicoAutenticacao->>Usuario: podeAutenticar() [OP-01]
+        Usuario-->>ServicoAutenticacao: true
+        ServicoAutenticacao->>Usuario: confereCredencial(credencial) [OP-02]
+        Usuario-->>ServicoAutenticacao: true
+        ServicoAutenticacao->>RepositorioAutorizacao: obterPermissoes(usuario) [IR-02]
+        RepositorioAutorizacao-->>ServicoAutenticacao: perfil e permissoes da conta
+        ServicoAutenticacao->>ServicoAutenticacao: criarSessao(usuario, perfil, permissoes) [AP-01]
+        ServicoAutenticacao->>ServicoAuditoria: registrar("LOGIN_CONCEDIDO", responsavel, detalhes) [AP-02]
+        ServicoAuditoria->>RegistroAuditoria: registrar(responsavel, data, hora, operacao) [RF-032]
+        ServicoAutenticacao-->>Ator: sessao autenticada criada (UC-001)
+    end
+
+    opt A1 (RF-002) - Encerramento de sessao a qualquer momento
+        Ator->>ServicoAutenticacao: encerrarSessao() [AP-01]
+        ServicoAutenticacao->>ServicoAutenticacao: invalidarSessaoAtiva() [AP-01]
+        ServicoAutenticacao-->>Ator: sessao encerrada
+    end
+
+    note over Ator,RegistroAuditoria: Legenda: Ator = ator humano | Servico* = servico de aplicacao (AP-01..AP-04) | Repositorio* = repositorio de infraestrutura (Fase 7) | Usuario, Perfil, Permissao, RegistroAuditoria = entidades de dominio (CLS-001 v2).
