@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" type="device">
+  <diagram id="fase5-DiagramadeobjetosOBJ001fotografiaparcial" name="Pagina-1">
+    <mxGraphModel dx="1600" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1095" pageHeight="378" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="hdr" value="Diagrama de objetos - OBJ-001 (fotografia parcial do cadastro)" style="text;html=1;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;fontSize=17;fontStyle=1;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="28" y="10" width="1200" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="hdr2" value="Fonte editavel: 03-uml/Objetos/diagrama-objetos.mmd | Valores ficticios, sem dado real de paciente (DEC-005)" style="text;html=1;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;fontSize=12;fontColor=#444444;" vertex="1" parent="1">
+          <mxGeometry x="28" y="32" width="1400" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="c0" value="&lt;b&gt;contaProfissionalCenario : Usuario&lt;/b&gt;" style="swimlane;html=1;whiteSpace=wrap;startSize=28;horizontal=1;childLayout=stackLayout;fillColor=#ffffff;strokeColor=#000000;fontSize=15;fontColor=#000000;align=center;verticalAlign=middle;rounded=0;spacingLeft=4;spacingRight=4;shadow=0;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="54.9687" y="94" width="279.071" height="62" as="geometry" />
+        </mxCell>
+        <mxCell id="c0-m0" value="identificacao = CONTA-FICTICIA-P01" style="text;html=1;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;whiteSpace=wrap;strokeColor=none;fillColor=none;fontSize=12;fontColor=#000000;" vertex="1" parent="c0">
+          <mxGeometry x="0" y="28" width="279.071" height="18" as="geometry">
+            <mxRectangle as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c1" value="&lt;b&gt;profissionalCenario : Psicologo&lt;/b&gt;" style="swimlane;html=1;whiteSpace=wrap;startSize=28;horizontal=1;childLayout=stackLayout;fillColor=#ffffff;strokeColor=#000000;fontSize=15;fontColor=#000000;align=center;verticalAlign=middle;rounded=0;spacingLeft=4;spacingRight=4;shadow=0;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="457.008" y="106" width="251.965" height="38" as="geometry" />
+        </mxCell>
+        <mxCell id="c2" value="&lt;b&gt;contaPacienteCenario : Usuario&lt;/b&gt;" style="swimlane;html=1;whiteSpace=wrap;startSize=28;horizontal=1;childLayout=stackLayout;fillColor=#ffffff;strokeColor=#000000;fontSize=15;fontColor=#000000;align=center;verticalAlign=middle;rounded=0;spacingLeft=4;spacingRight=4;shadow=0;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="804.973" y="94" width="258.108" height="62" as="geometry" />
+        </mxCell>
+        <mxCell id="c2-m0" value="identificacao = CONTA-FICTICIA-C01" style="text;html=1;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;whiteSpace=wrap;strokeColor=none;fillColor=none;fontSize=12;fontColor=#000000;" vertex="1" parent="c2">
+          <mxGeometry x="0" y="28" width="258.108" height="18" as="geometry">
+            <mxRectangle as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c3" value="&lt;b&gt;pacienteCenario : Paciente&lt;/b&gt;" style="swimlane;html=1;whiteSpace=wrap;startSize=28;horizontal=1;childLayout=stackLayout;fillColor=#ffffff;strokeColor=#000000;fontSize=15;fontColor=#000000;align=center;verticalAlign=middle;rounded=0;spacingLeft=4;spacingRight=4;shadow=0;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="82.7438" y="234" width="223.521" height="38" as="geometry" />
+        </mxCell>
+        <mxCell id="c4" value="&lt;b&gt;vinculoCenario : Vinculo&lt;/b&gt;" style="swimlane;html=1;whiteSpace=wrap;startSize=28;horizontal=1;childLayout=stackLayout;fillColor=#ffffff;strokeColor=#000000;fontSize=15;fontColor=#000000;align=center;verticalAlign=middle;rounded=0;spacingLeft=4;spacingRight=4;shadow=0;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="481.562" y="234" width="202.857" height="38" as="geometry" />
+        </mxCell>
+        <mxCell id="c5" value="&lt;b&gt;agendaCenario : Agenda&lt;/b&gt;" style="swimlane;html=1;whiteSpace=wrap;startSize=28;horizontal=1;childLayout=stackLayout;fillColor=#ffffff;strokeColor=#000000;fontSize=15;fontColor=#000000;align=center;verticalAlign=middle;rounded=0;spacingLeft=4;spacingRight=4;shadow=0;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="829.37" y="234" width="209.314" height="38" as="geometry" />
+        </mxCell>
+        <mxCell id="c6" value="&lt;b&gt;disponibilidadeCenario : Disponibilidade&lt;/b&gt;" style="swimlane;html=1;whiteSpace=wrap;startSize=28;horizontal=1;childLayout=stackLayout;fillColor=#ffffff;strokeColor=#000000;fontSize=15;fontColor=#000000;align=center;verticalAlign=middle;rounded=0;spacingLeft=4;spacingRight=4;shadow=0;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="28" y="350" width="333.008" height="62" as="geometry" />
+        </mxCell>
+        <mxCell id="c6-m0" value="periodo = FAIXA-FICTICIA 2040-08-17 09h00 a 10h00" style="text;html=1;align=left;verticalAlign=middle;spacingLeft=6;spacingRight=4;whiteSpace=wrap;strokeColor=none;fillColor=none;fontSize=12;fontColor=#000000;" vertex="1" parent="c6">
+          <mxGeometry x="0" y="28" width="333.008" height="18" as="geometry">
+            <mxRectangle as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e0" value="A03" style="edgeStyle=none;html=1;rounded=0;jettySize=auto;orthogonalLoop=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=2.256e-16;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#1a1a1a;strokeWidth=1;endArrow=none;endFill=none;endSize=8;startArrow=none;labelBackgroundColor=#ffffff;fontSize=11;fontColor=#000000;" edge="1" parent="1" source="c0" target="c1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" value="A04" style="edgeStyle=none;html=1;rounded=0;jettySize=auto;orthogonalLoop=1;exitX=0;exitY=0.860278;exitDx=0;exitDy=0;entryX=0.991109;entryY=0;entryDx=0;entryDy=0;strokeColor=#1a1a1a;strokeWidth=1;endArrow=none;endFill=none;endSize=8;startArrow=none;labelBackgroundColor=#ffffff;fontSize=11;fontColor=#000000;" edge="1" parent="1" source="c2" target="c3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" value="A06" style="edgeStyle=none;html=1;rounded=0;jettySize=auto;orthogonalLoop=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#1a1a1a;strokeWidth=1;endArrow=none;endFill=none;endSize=8;startArrow=none;labelBackgroundColor=#ffffff;fontSize=11;fontColor=#000000;" edge="1" parent="1" source="c1" target="c4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" value="A07" style="edgeStyle=none;html=1;rounded=0;jettySize=auto;orthogonalLoop=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#1a1a1a;strokeWidth=1;endArrow=none;endFill=none;endSize=8;startArrow=none;labelBackgroundColor=#ffffff;fontSize=11;fontColor=#000000;" edge="1" parent="1" source="c3" target="c4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" value="A08" style="edgeStyle=none;html=1;rounded=0;jettySize=auto;orthogonalLoop=1;exitX=0.706802;exitY=1;exitDx=0;exitDy=0;entryX=0.251058;entryY=0;entryDx=0;entryDy=0;strokeColor=#1a1a1a;strokeWidth=1;endArrow=none;endFill=none;endSize=8;startArrow=none;labelBackgroundColor=#ffffff;fontSize=11;fontColor=#000000;" edge="1" parent="1" source="c1" target="c5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" value="A09" style="edgeStyle=none;html=1;rounded=0;jettySize=auto;orthogonalLoop=1;exitX=0;exitY=0.976698;exitDx=0;exitDy=0;entryX=1;entryY=0.0351727;entryDx=0;entryDy=0;strokeColor=#1a1a1a;strokeWidth=1;endArrow=none;endFill=none;endSize=8;startArrow=none;labelBackgroundColor=#ffffff;fontSize=11;fontColor=#000000;" edge="1" parent="1" source="c5" target="c6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="nt0" value="&lt;b&gt;Nota&lt;/b&gt;&lt;br&gt;FOTOGRAFIA FICTICIA PARCIAL. Caixas sao objetos das classes existentes. Contagens observadas nao definem multiplicidades." style="shape=note;whiteSpace=wrap;html=1;size=14;fillColor=#fffbe6;strokeColor=#b58b00;align=left;verticalAlign=top;spacingLeft=6;spacingTop=2;fontSize=11;fontColor=#3b3000;" vertex="1" parent="1">
+          <mxGeometry x="1097.08" y="28" width="314.367" height="88" as="geometry" />
+        </mxCell>
+        <mxCell id="nt1" value="&lt;b&gt;Nota para contaProfissionalCenario&lt;/b&gt;&lt;br&gt;Identificacao ilustrativa, sem tipo/formato aprovado. Credencial, situacao e perfis omitidos da vista." style="shape=note;whiteSpace=wrap;html=1;size=14;fillColor=#fffbe6;strokeColor=#b58b00;align=left;verticalAlign=top;spacingLeft=6;spacingTop=2;fontSize=11;fontColor=#3b3000;" vertex="1" parent="1">
+          <mxGeometry x="1097.08" y="132" width="333.958" height="74" as="geometry" />
+        </mxCell>
+        <mxCell id="nt2" value="&lt;b&gt;Nota para contaPacienteCenario&lt;/b&gt;&lt;br&gt;Identificacao ilustrativa. Conta separada do cadastro; nao representa login ou acesso autorizado." style="shape=note;whiteSpace=wrap;html=1;size=14;fillColor=#fffbe6;strokeColor=#b58b00;align=left;verticalAlign=top;spacingLeft=6;spacingTop=2;fontSize=11;fontColor=#3b3000;" vertex="1" parent="1">
+          <mxGeometry x="1097.08" y="222" width="304.643" height="74" as="geometry" />
+        </mxCell>
+        <mxCell id="nt3" value="&lt;b&gt;Nota para vinculoCenario&lt;/b&gt;&lt;br&gt;Vinculo formalizado no cenario. Sem atributo de estado nem resultado de estaAutorizado." style="shape=note;whiteSpace=wrap;html=1;size=14;fillColor=#fffbe6;strokeColor=#b58b00;align=left;verticalAlign=top;spacingLeft=6;spacingTop=2;fontSize=11;fontColor=#3b3000;" vertex="1" parent="1">
+          <mxGeometry x="1097.08" y="312" width="318.69" height="74" as="geometry" />
+        </mxCell>
+        <mxCell id="nt4" value="&lt;b&gt;Nota para disponibilidadeCenario&lt;/b&gt;&lt;br&gt;Periodo ficticio, sem fixar tipo, formato, fuso, recorrencia ou duracao padrao. Nao comprova horario livre." style="shape=note;whiteSpace=wrap;html=1;size=14;fillColor=#fffbe6;strokeColor=#b58b00;align=left;verticalAlign=top;spacingLeft=6;spacingTop=2;fontSize=11;fontColor=#3b3000;" vertex="1" parent="1">
+          <mxGeometry x="1097.08" y="402" width="313.773" height="74" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
