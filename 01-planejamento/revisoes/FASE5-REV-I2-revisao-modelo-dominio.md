@@ -398,5 +398,6 @@ Observação de rastreabilidade: o OBJ-002 usa a nomenclatura de situação prop
 | `06-rastreabilidade/matriz-rastreabilidade-fase5.md` | Matriz RF → RN/RNF → UC → classe → **operação** → sequência → tabela → teste, verificação de órfãos e tabelas propostas | Proposta para o Integrante 1 homologar |
 | `07-dossie/secoes/fase5-secao-18-20-27.md` | Texto pronto para as seções 18, 19, 20 e 27 do dossiê final | Texto para o Integrante 6 consolidar |
 | `01-planejamento/decisoes.md` (bloco final) | Propostas DEC-011…DEC-026, com justificativa e efeito no modelo | Aguardando aprovação do grupo |
+| `03-uml/**/*.drawio.xml` e `03-uml/**/*.pdf` | Exportação dos diagramas em **dois formatos** (draw.io editável + PDF para o dossiê), com a convenção documentada em `03-uml/README.md` | Pronto para walkthrough |
 
 **Sequência sugerida ao grupo:** (1) walkthrough desta revisão; (2) decisão das DEC-011…DEC-026; (3) incorporação pelo Integrante 3 das operações e multiplicidades aprovadas; (4) Fase 6 (sequências, atividades, estados) pelo Integrante 2, usando a §5.3; (5) Fase 7 (pacotes, componentes, DER) pelo Integrante 4, com a §4 da matriz de rastreabilidade.

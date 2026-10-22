@@ -2,7 +2,7 @@
 
 **Responsável:** Integrante 2 (Fase 5) · **Data:** 21/10/2026 · **Versão:** v1.0.
 **Uso:** texto para as seções 18 (Modelo de domínio), 19 (Diagrama de classes), 20 (Diagrama de objetos) e 27 (Princípios OO e SOLID) do dossiê final (estrutura do plano §16).
-**Regra de inserção de diagramas (plano §16.1):** cada diagrama entra no dossiê com título + identificador, objetivo, elementos principais, como interpretar, decisões de modelagem, relação com requisitos/classes/banco e **referência ao arquivo editável** no repositório. As imagens (PNG/SVG) são geradas a partir dos `.mmd` pelo Integrante 6; aqui fica o texto e o caminho do fonte editável.
+**Regra de inserção de diagramas (plano §16.1):** cada diagrama entra no dossiê com título + identificador, objetivo, elementos principais, como interpretar, decisões de modelagem, relação com requisitos/classes/banco e **referência ao arquivo editável** no repositório. Os diagramas da Fase 5 já têm **PDF e fonte editável (`.drawio.xml`)** versionados em `03-uml/` — ver a convenção de entrega em `03-uml/README.md`; se o grupo quiser PNG/SVG additional, eles são gerados a partir do `.drawio.xml` no diagrams.net.
 
 > **Estado dos modelos na data deste texto:** o diagrama de classes e o diagrama de objetos estão em **fase de aprovação**. As multiplicidades e os nomes de situação propostos nesta seção foram submetidos ao grupo e ainda não são decisão formal (ver `01-planejamento/revisoes/FASE5-REV-I2-revisao-modelo-dominio.md`). Enquanto o grupo não aprovar, o dossiê deve usar a formulação "proposta em revisão" e não "decidido".
 
@@ -76,7 +76,9 @@ Cada um dos 32 requisitos funcionais tem ao menos um conceito do modelo associad
 
 ### 18.6 Arquivos
 
-- Fonte editável do diagrama: `03-uml/Dominio/diagrama-dominio.mmd`
+- Fonte editável do diagrama (Mermaid): `03-uml/Dominio/diagrama-dominio.mmd`
+- Fonte editável no diagrams.net: `03-uml/Dominio/diagrama-dominio.drawio.xml`
+- Versão para publicação no dossiê: `03-uml/Dominio/diagrama-dominio.pdf`
 - Especificação do modelo: `03-uml/Dominio/modelo-dominio.md`
 - Revisão da Fase 5: `01-planejamento/revisoes/FASE5-REV-I2-revisao-modelo-dominio.md`
 
@@ -129,10 +131,12 @@ O diagrama é a origem do mapeamento classe ↔ tabela: cada uma das doze classe
 
 ### 19.6 Arquivos
 
-- Fonte editável vigente: `03-uml/Classes/diagrama-classes.mmd` (Integrante 3)
+- Fonte editável vigente (Mermaid): `03-uml/Classes/diagrama-classes.mmd` (Integrante 3)
+- Fonte editável no diagrams.net: `03-uml/Classes/diagrama-classes.drawio.xml`
+- Versão para publicação no dossiê: `03-uml/Classes/diagrama-classes.pdf`
 - Especificação de classes: `03-uml/Classes/especificacao-classes.md`
 - Decisões de modelagem OO: `03-uml/Classes/decisoes-modelagem.md`
-- Proposta de fechamento das multiplicidades e das situações (Fase 5): `03-uml/Classes/proposta-I2-diagrama-classes-v2.mmd`
+- Proposta de fechamento das multiplicidades e das situações (Fase 5): `03-uml/Classes/proposta-I2-diagrama-classes-v2.mmd`, com `proposta-I2-diagrama-classes-v2.drawio.xml` e `proposta-I2-diagrama-classes-v2.pdf`
 
 ---
 
@@ -170,7 +174,9 @@ Cada objeto corresponde a uma linha (ou a um conjunto de linhas) do modelo relac
 
 ### 20.6 Arquivos
 
-- Fontes editáveis: `03-uml/Objetos/diagrama-objetos.mmd` (OBJ-001) e `03-uml/Objetos/proposta-I2-diagrama-objetos-v2.mmd` (OBJ-002)
+- Fontes editáveis (Mermaid): `03-uml/Objetos/diagrama-objetos.mmd` (OBJ-001) e `03-uml/Objetos/proposta-I2-diagrama-objetos-v2.mmd` (OBJ-002)
+- Fontes editáveis no diagrams.net: `03-uml/Objetos/diagrama-objetos.drawio.xml` e `03-uml/Objetos/proposta-I2-diagrama-objetos-v2.drawio.xml`
+- Versões para publicação no dossiê: `03-uml/Objetos/diagrama-objetos.pdf` e `03-uml/Objetos/proposta-I2-diagrama-objetos-v2.pdf`
 - Especificações: `03-uml/Objetos/especificacao-objetos.md` e `03-uml/Objetos/proposta-I2-especificacao-objetos-v2.md`
 
 ---
