@@ -116,7 +116,7 @@ Critérios de qualidade aplicados: plano §13 (regras de consistência), §15 (e
 
 ### 4.6 Consolidado
 
-- **COBERTO:** 2 de 14 casos/UCs avaliados diretamente; **PARCIAL:** 8; **LACUNA:** 3; **FORA DO DOMÍNIO:** 1 (parcialmente).
+- **Veredictos por caso (12 casos avaliados):** **COBERTO** 2 (Consultar meu cadastro; Registrar evento de auditoria); **PARCIAL** 7 (UC-021, UC-025, UC-027, Gerenciar usuários e permissões, Gerenciar psicólogos e pacientes, Gerenciar perfil e agenda, Atender pacientes vinculados); **LACUNA** 2 (UC-001 — Autenticar usuário; Consultar auditoria); **FORA DO DOMÍNIO** 1 (Notificar paciente por e-mail).
 - **Cobertura por RF:** 21 dos 32 RFs têm objetivo representado em alguma operação (apenas "parcialmente" ou "colaboração posterior" na classificação do Integrante 3). **11 RFs não têm responsabilidade modelada**: RF-001, RF-002, RF-003, RF-009, RF-010, RF-011, RF-012, RF-013, RF-024, RF-028, RF-029.
 - **Nenhum RF está sem classe.** O problema é de operação/colaboração, não de estrutura de classes. Isso é uma boa notícia: a **estrutura do domínio está correta** e não precisa ser redesenhada; o que falta é fechar contratos.
 
@@ -276,7 +276,7 @@ O plano §19 penaliza explicitamente modelagem sem multiplicidades, e o Integran
 
 > Observação: com A17 opcional e o modelo de slot discreto, a regra RN-005 fica: *um `Disponibilidade` não pode ter dois agendamentos em situação SOLICITADO/CONFIRMADO*. É a formulação mais simples e portátil para o banco (inciso INC-05 do I4).
 
-## 8. Achados da revisão (R5-01 … R5-15)
+## 8. Achados da revisão (R5-01 … R5-17)
 
 Severidade: **C** = crítico (bloqueia a Fase 6), **A** = alto (bloqueia DER/dossiê), **M** = médio, **B** = baixo.
 
