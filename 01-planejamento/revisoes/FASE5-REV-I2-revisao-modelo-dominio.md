@@ -249,13 +249,15 @@ O plano §5.4 exige que **os mesmos estados apareçam no domínio, nos casos e n
 
 O plano §19 penaliza explicitamente modelagem sem multiplicidades, e o Integrante 4 bloqueou o DER (P-01…P-05) por pendências de cardinalidade. As 16 associações seguem com `PENDENTE` em ambos os extremos. **Proposta de fechamento para aprovação do grupo** (nenhuma foi aplicada nos arquivos do Integrante 3 por esta revisão):
 
+> **Convenção adotada (padrão UML):** a multiplicidade escrita **ao lado de uma classe** indica **quantas instâncias dessa classe** se relacionam com **uma instância da outra classe**. Exemplo de A01: `Usuario "0..*" — "1" Perfil` significa *cada conta tem exatamente 1 perfil* e *cada perfil atende 0..* contas*. A mesma convenção vale para os diagramas `.mmd`, `.drawio.xml` e `.pdf` da Fase 5.
+
 | ID | Associação | Multiplicidade proposta | Justificativa | Alinhamento |
 |---|---|---|---|---|
-| A01 | Usuario — Perfil | `Usuario "0..1" — "1" Perfil` | Toda conta que autentica possui exatamente um perfil (RF-003, RF-001); perfis são reutilizados por várias contas | Fecha INC-01 (recomendação do I4: 1:1 com UNIQUE) |
-| A02 | Perfil — Permissao | `Perfil "1" — "0..*" Permissao` | Um perfil agrupa zero ou mais permissões; uma permissão pode servir a vários perfis (N:N) | Plano §10.1 (`perfil_permissao`) |
+| A01 | Usuario — Perfil | `Usuario "0..*" — "1" Perfil` | Toda conta que autentica possui exatamente um perfil (RF-003, RF-001); perfis são reutilizados por várias contas | Fecha INC-01 (recomendação do I4: 1:1 com UNIQUE) |
+| A02 | Perfil — Permissao | `Perfil "0..*" — "0..*" Permissao` | Um perfil agrupa zero ou mais permissões; uma permissão pode servir a vários perfis (N:N) | Plano §10.1 (`perfil_permissao`) |
 | A03 | Usuario — Psicologo | `Usuario "0..1" — "0..1" Psicologo` | Conta de acesso é distinta do cadastro profissional (RF-014); um profissional pode existir sem conta e uma conta atende a no máximo um cadastro profissional | Fecha INC-12 / P-11 |
 | A04 | Usuario — Paciente | `Usuario "0..1" — "0..1" Paciente` | Mesma lógica para o paciente (RF-018, DEC-006) | Fecha INC-12 / P-11 |
-| A05 | Psicologo — AreaAtuacao | `Psicologo "0..*" — "1" AreaAtuacao` | Várias áreas por profissional (RF-016); uma área pode atender vários profissionais. Invariante: perfil ativo exige ao menos uma área | Plano §10.1 (`psicologo_area_atuacao`); ver INC-09 |
+| A05 | Psicologo — AreaAtuacao | `Psicologo "0..*" — "0..*" AreaAtuacao` | Várias áreas por profissional (RF-016); uma área pode atender vários profissionais. Invariante: perfil ativo exige ao menos uma área | Plano §10.1 (`psicologo_area_atuacao`); ver INC-09 |
 | A06 | Psicologo — Vinculo | `Psicologo "1" — "0..*" Vinculo` | Um vínculo identifica **um** profissional (glossário, RF-021) | — |
 | A07 | Paciente — Vinculo | `Paciente "1" — "0..*" Vinculo` | Um vínculo identifica **um** paciente | — |
 | A08 | Psicologo — Agenda | `Psicologo "1" — "1" Agenda` | Agenda **própria** (RN-011, RF-023, RF-029): um profissional, uma agenda | Resolve a validação pedida em PC-09 |
@@ -272,7 +274,7 @@ O plano §19 penaliza explicitamente modelagem sem multiplicidades, e o Integran
 
 | ID | Associação | Multiplicidade proposta | Condição | Justificativa |
 |---|---|---|---|---|
-| A17 | Disponibilidade — Agendamento | `Disponibilidade "0..1" — "0..*" Agendamento` | **Somente se** o grupo aprovar o modelo de slot discreto (P-05) | Liga o agendamento ao período ofertado reservado; torna verificável RN-005/RN-010 e o índice de exclusividade |
+| A17 | Disponibilidade — Agendamento | `Disponibilidade "0..*" — "0..1" Agendamento` | **Somente se** o grupo aprovar o modelo de slot discreto (P-05) | Liga o agendamento ao período ofertado reservado; torna verificável RN-005/RN-010 e o índice de exclusividade |
 
 > Observação: com A17 opcional e o modelo de slot discreto, a regra RN-005 fica: *um `Disponibilidade` não pode ter dois agendamentos em situação SOLICITADO/CONFIRMADO*. É a formulação mais simples e portátil para o banco (inciso INC-05 do I4).
 

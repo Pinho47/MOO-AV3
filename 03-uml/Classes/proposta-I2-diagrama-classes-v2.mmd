@@ -6,6 +6,8 @@ classDiagram
     %% Natureza: PROPOSTA. Nao substitui o artefato do Integrante 3;
     %% precisa de aprovacao do grupo antes de ser incorporada.
     %% Multiplicidades fechadas conforme revisao FASE5-REV-I2 secao 7.
+    %% Convencao UML: multiplicidade ao lado da classe = quantidade dessa
+    %% classe por instancia da outra (ex.: "0..*" Usuario -- "1" Perfil).
     %% Situacoes nomeadas conforme revisao FASE5-REV-I2 secao 6.
     %% Operacoes OP-01..OP-22 sao PROPOSTAS com base em RF/RN/UC.
     %% ============================================================
@@ -129,11 +131,11 @@ classDiagram
         NAO_COMPARECEU
     }
 
-    Usuario "0..1" -- "1" Perfil : A01 possui perfil de acesso
-    Perfil "1" -- "0..*" Permissao : A02 agrupa
+    Usuario "0..*" -- "1" Perfil : A01 possui perfil de acesso
+    Perfil "0..*" -- "0..*" Permissao : A02 agrupa
     Usuario "0..1" -- "0..1" Psicologo : A03 conta do cadastro profissional
     Usuario "0..1" -- "0..1" Paciente : A04 conta do cadastro de paciente
-    Psicologo "0..*" -- "1" AreaAtuacao : A05 atua em
+    Psicologo "0..*" -- "0..*" AreaAtuacao : A05 atua em
     Psicologo "1" -- "0..*" Vinculo : A06 participa
     Paciente "1" -- "0..*" Vinculo : A07 participa
     Psicologo "1" -- "1" Agenda : A08 titular
@@ -145,7 +147,7 @@ classDiagram
     Paciente "1" -- "0..*" Atendimento : A14 paciente atendido
     Agendamento "1" -- "0..1" Atendimento : A15 corresponde a sessao
     Usuario "0..1" -- "0..*" RegistroAuditoria : A16 responsavel pela operacao
-    Disponibilidade "0..1" -- "0..*" Agendamento : A17 reserva condicional (slot discreto)
+    Disponibilidade "0..*" -- "0..1" Agendamento : A17 reserva condicional (slot discreto)
 
     Usuario ..> SituacaoConta : situacaoConta
     Paciente ..> SituacaoCadastral : situacaoCadastral
