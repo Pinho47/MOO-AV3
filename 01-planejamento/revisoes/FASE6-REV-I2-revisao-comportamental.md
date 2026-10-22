@@ -94,7 +94,7 @@ Veredictos usados: **OK** · **DIVERGENTE** (corrigido nesta fase) · **PENDENTE
 | Passo 4 — sistema cria o agendamento | `Agendamento.solicitar` | `Criar agendamento` | msg. 7 | T1 (`[*] → SOLICITADO`) | **OK** |
 | Passo 5 — confirmação automática | `confirmar` (OP-13) | `Confirmar (OP-13)` | msg. 8 | T2 | **OK** |
 | Passo 6 — auditoria | `registrar("AGENDAMENTO_CONFIRMADO")` | `Auditar confirmação (RN-009)` | msg. 9, 10 | efeito de T2 | **OK** |
-| Passo 7 — notificação | `notificar(confirmacao)` | `Notificar (AP-04)` (ramo *par 2*) | msg. 11 | efeito de T2 | **OK (condicional a DEC-009)** |
+| Passo 7 — notificação | `notificar(confirmacao)` | `Notificar confirmação (AP-04)` (ramo *par 2* do `fork1`) | msg. 11 | efeito de T2 | **OK (condicional a DEC-009)** |
 | A1 — não há horário disponível | `alt` "Nenhum horário disponível" | `d1` [Não] → `Sem horários (A1)` | — | — | **OK** |
 | E1 — conflito de horário | `alt` "E1 - Conflito de horário" | `d2` [Não] → `Recusar (E1)` | msg. 6 (retorno falso) | — | **OK** |
 
@@ -122,7 +122,7 @@ Veredictos usados: **OK** · **DIVERGENTE** (corrigido nesta fase) · **PENDENTE
 
 | Comportamento | Nome da operação (em todos os diagramas) | Regra | Seq | ATV | COM | EST | Coerente? |
 |---|---|---|---|---|---|---|---|
-| Buscar a conta | `obterPorIdentificacao` / `consultarHorarios`… | — | SEQ-001 (IR-01) | — | — | — | **OK** (só SEQ-001) |
+| Buscar a conta | `obterPorIdentificacao` | — | SEQ-001 (IR-01) | — | — | — | **OK** (só SEQ-001) |
 | Verificar se a conta pode autenticar | `podeAutenticar` (OP-01) | RN-001 | SEQ-001 | — | — | — | **OK** |
 | Conferir a credencial | `confereCredencial` (OP-02) | RN-002 | SEQ-001 | — | — | — | **OK** |
 | Carregar permissões da sessão | `obterPermissoes` (IR-02) | RF-007/008 | SEQ-001 | — | — | — | **OK** |
@@ -140,7 +140,7 @@ Veredictos usados: **OK** · **DIVERGENTE** (corrigido nesta fase) · **PENDENTE
 | Registrar falta | `registrarFalta(solicitante)` (OP-18) | INC-13 | SEQ-003 | `Registrar falta (OP-18)` | — | T6 | **OK** |
 | Notificar | `notificar(...)` (AP-04) | DEC-009 | SEQ-002, SEQ-003 | `Notificar confirmação (AP-04)`, `Notificar cancelamento (AP-04)` | msg. 11 | efeito das transições | **OK** |
 
-**Resultado: 18 comportamentos comparados, 0 divergências de nome, 0 divergências de regra, 0 divergências de efeito.**
+**Resultado: 17 comportamentos comparados, 0 divergências de nome, 0 divergências de regra, 0 divergências de efeito.**
 
 ### 5.2 Matriz de cobertura dos quatro diagramas por requisito
 
@@ -159,8 +159,8 @@ Veredictos usados: **OK** · **DIVERGENTE** (corrigido nesta fase) · **PENDENTE
 
 | Verificação | Resultado |
 |---|---|
-| Mensagem de sequência sem OP/AP/IR | **0** (37 mensagens auditadas) |
-| Atividade sem origem em operação | **0** (18 atividades auditadas) |
+| Mensagem de sequência sem OP/AP/IR | **0** (82 setas auditadas: 49 solicitações e 33 retornos; 35 mensagens de solicitação distintas) |
+| Atividade sem origem em operação | **0** (26 atividades em pista + 5 nós `Fim`, de 37 caixas do diagrama) |
 | Mensagem de comunicação sem origem | **0** (14 mensagens auditadas) |
 | Transição de estado sem operação | **0** (6 transições auditadas) |
 | Estado sem atributo persistível | **0** (`SituacaoAgendamento` = `agendamento.status`) |
@@ -180,7 +180,7 @@ O Integrante 4 صفحة uma análise de impacto comportamental (`04-persistencia
 | 1.2 | `compararHash(hashArmazenado, senha)` — serviço de autenticação (domínio) | SEQ-001, msg. 4 — `confereCredencial(senha)` (OP-02, entidade `Usuario`) | **DIVERGENTE (camada)** | **R6-01**: os dois concordam que a comparação **não** acontece no repositório (RN-002) e sim no domínio. A diferença é *quem* compara: serviço de autenticação × entidade `Usuario`. A Fase 5 já fixou o princípio de que **a entidade decide** ("se pode" e "se a credencial confere"), e o atributo `credencialProtegida` é privado. **Proposta:** manter OP-02 na entidade e atualizar a análise do I4 para `Usuario.confereCredencial` + coluna `usuario.hash_senha` (que o I4 já prevê). |
 | 1.3 | `verificarSituacao(usuario)` — repositório de usuário | SEQ-001, msg. 3 — `podeAutenticar()` (OP-01, entidade `Usuario`) | **DIVERGENTE (camada)** | **R6-03**: regra de negócio no repositório é o padrão que o plano §5.2 recusa (repositório carrega, entidade decide). **Proposta:** o repositório carrega `situacaoConta`; a entidade decide, com RN-001 materializado em `podeAutenticar()`. Esta é a leitura que também sustenta `Vinculo.estaAtivo` (OP-22). |
 | 1.4 | `obterPermissoes(idUsuario)` — repositório de autorização | SEQ-001, msg. 5 — `obterPermissoes(idUsuario)` (IR-02) | **OK — sem divergência** | Mantido exatamente. *Atenção:* é **diferente** do `consultarPermitidos` (OP-04) que aparece na mensagem 2 do COM-001 — ver R6-04. |
-| 2.6 | `notificar(destinatario, evento)` — serviço externo | SEQ-002/SEQ-003 — `notificar(confirmacao)` / `notificar(cancelamento)` (AP-04); COM-001 msg. 11; ATV-001 `Notificar (AP-04)` | **OK — nome do argumento a harmonizar** | **R6-06**: o parâmetro do I4 é `evento`; o diagrama é mais específico (`confirmacao` / `cancelamento`). A especificação do I4 descreve o mesmo envio. **Proposta:** nomear o parâmetro `evento` na interface `ServicoEnvioMensagem` e manter `confirmacao`/`cancelamento` como **valores** do evento. |
+| 2.6 | `notificar(destinatario, evento)` — serviço externo | SEQ-002/SEQ-003 — `notificar(confirmacao)` / `notificar(cancelamento)` (AP-04); COM-001 msg. 11; ATV-001 `Notificar confirmação (AP-04)` e `Notificar cancelamento (AP-04)` | **OK — nome do argumento a harmonizar** | **R6-06**: o parâmetro do I4 é `evento`; o diagrama é mais específico (`confirmacao` / `cancelamento`). A especificação do I4 descreve o mesmo envio. **Proposta:** nomear o parâmetro `evento` na interface `ServicoEnvioMensagem` e manter `confirmacao`/`cancelamento` como **valores** do evento. |
 | — | **TRS-02** — notificação fora da transação de escrita (pós-commit) | SEQ-002/003 (a notificação aparece **depois** da auditoria e da resposta do `Agendamento`); ATV-001 (fork1, ramo *par 2*) | **OK — alinhado** | **R6-07**: os diagramas **não desenham fronteira de transação** (não há marcações de commit). Isso é uma escolha consciente: a fronteira transacional é responsabilidade da camada de persistência (Fase 7). O que os diagramas garantem é a **ordem**: a notificação é disparada **após** a gravação e a auditoria. |
 | — | **INC-13** — "Não compareceu" alcançável apenas a partir de "Confirmado" | EST-001, transição **T6** (`CONFIRMADO → NAO_COMPARECEU`); nota do diagrama; SEQ-003 (`opt` "Não compareceu"); ATV-001 (`d5` [Não]) | **OK — INC-13 resolvido** | A INC-13 estava **aberta** ("Indefinido"). A Fase 6 a **fecha por desenho**: não existe transição de `SOLICITADO` para `NAO_COMPARECEU`. Isso responde também à pergunta **P-14** do I4. |
 | — | **ARQ-07** — *outbox* para eventos pós-commit | Não aparece nos diagramas | **PENDENTE / fora de escopo** | A *outbox* é infraestrutura de Fase 7. **R6-08**: se o grupo decidir pela *outbox*, o ATV-001 ganha uma atividade "registrar evento de saída" na pista de auditoria; o desenho atual já separa o ramo *par 2* do `fork1`, o que facilita a inclusão sem redesenhar. |
@@ -240,12 +240,12 @@ Com isso, os **dois** eventos notificáveis da Fase 6 (confirmação e cancelame
 |---|---|---|
 | Todo ator do diagrama de casos está definido na documentação | Ator, Paciente, Psicólogo, Administrador | **OK** — só `Ator` (genérico) aparece nas sequências; o papel concreto vem do caso de uso |
 | Todo caso de uso possui requisito/objetivo rastreável | UC-001, UC-024, UC-025, UC-027 | **OK** — UC-024 e UC-028 são propostas do I2 (matriz da Fase 5 §1) |
-| Conceitos relevantes dos casos aparecem nos diagramas | 12 classes do modelo | **OK** — 12 colaboradores no COM-001, 8 classes no ATV-001, 6 no SEQ-003 |
+| Conceitos relevantes dos casos aparecem nos diagramas | 12 classes do modelo | **OK** — 7 das 12 classes aparecem como participante ou colaborador: `Usuario` (SEQ-001, COM-001), `Vinculo` (SEQ-002, COM-001, ATV-001), `Agenda` (SEQ-002, COM-001, ATV-001), `Agendamento` (SEQ-002/003, COM-001, ATV-001, EST-001), `Atendimento` (SEQ-003, COM-001, ATV-001) e `RegistroAuditoria` (SEQ-001/002/003, COM-001, ATV-001); `Disponibilidade` é retornada em SEQ-002 e é colaborador no COM-001. `Perfil` e `Permissao` entram pela permissão carregada (IR-02); `Psicologo`, `Paciente` e `AreaAtuacao` são de cadastros, cobertos na Fase 5 |
 | Cada entidade/objeto tem responsabilidade clara; sem classes onipotentes | 4 diagramas | **OK** — a coordenação está no `ServicoAgenda` (AP-03); nenhuma entidade "sistema" |
-| **Mensagens de sequência correspondem a operações conhecidas** | §5 | **OK** — 37/37 mensagens com origem em OP/AP/IR (era "Parcial" na Fase 5) |
+| **Mensagens de sequência correspondem a operações conhecidas** | §5 | **OK** — 82/82 setas (49 solicitações e 33 retornos) com origem em OP/AP/IR (era "Parcial" na Fase 5) |
 | **Mensagens de comunicação correspondem a operações conhecidas** | §5 | **OK** — 14/14 |
 | Estados e transições têm eventos, condições ou ações coerentes | EST-001 | **OK** — 5 estados, 6 transições, todas com evento e 3 com guarda; encerra a INC-13 |
-| Atividades têm decisões, responsabilidades e paralelismo | ATV-001 | **OK** — 4 decisões, 4 pistas, 4 blocos paralelos |
+| Atividades têm decisões, responsabilidades e paralelismo | ATV-001 | **OK** — 4 decisões, 4 pistas, 3 blocos paralelos (fork/join) e 1 etapa sequencial de notificação |
 | Entidades persistentes têm correspondência com classes | 5Diagramas | **OK** — `SOLICITADO`…`NAO_COMPARECEU` = enum `SituacaoAgendamento` = `agendamento.status` (`IMP-DER-02` do I4) |
 | FKs e cardinalidades respeitam as multiplicidades do domínio | — | **Não se aplica** — as multiplicidades seguem `PENDENTE` (LAC-08); os diagramas não dependem delas |
 | Mudanças em um artefato provocam revisão dos relacionados | esta revisão + matriz da Fase 6 | **Aplicado** — a §6 desta revisão e `06-rastreabilidade/matriz-rastreabilidade-fase6.md` |
@@ -293,7 +293,7 @@ Com isso, os **dois** eventos notificáveis da Fase 6 (confirmação e cancelame
 | `03-uml/Sequências/proposta-I2-sequencia-seq-001-autenticar.mmd` (+ `.drawio.xml`, `.pdf`) | **SEQ-001** — autenticar usuário (UC-001), com E1/E2 e A1 | Pronto para walkthrough |
 | `03-uml/Sequências/proposta-I2-sequencia-seq-002-agendar.mmd` (+ `.drawio.xml`, `.pdf`) | **SEQ-002** — agendar (UC-025 + UC-024), com A1 e E1 | Pronto para walkthrough |
 | `03-uml/Sequências/proposta-I2-sequencia-seq-003-cancelar-confirmar.mmd` (+ `.drawio.xml`, `.pdf`) | **SEQ-003** — cancelar / confirmar / concluir / registrar falta (UC-027) | Pronto para walkthrough |
-| `03-uml/Atividade/proposta-I2-atividade-atv-001.mmd` (+ `.drawio.xml`, `.pdf`) | **ATV-001** — ciclo do agendamento em 4 pistas, 4 decisões e 4 blocos paralelos | Pronto para walkthrough |
+| `03-uml/Atividade/proposta-I2-atividade-atv-001.mmd` (+ `.drawio.xml`, `.pdf`) | **ATV-001** — ciclo do agendamento em 4 pistas, 4 decisões, 3 blocos paralelos e a etapa sequencial de notificação do cancelamento | Pronto para walkthrough |
 | `03-uml/Comunicação/proposta-I2-comunicacao-com-001.mmd` (+ `.drawio.xml`, `.pdf`) | **COM-001** — 12 colaboradores, 14 mensagens, hub `ServicoAgenda` (AP-03) | Pronto para walkthrough |
 | `03-uml/Estados/proposta-I2-estados-est-001.mmd` (+ `.drawio.xml`, `.pdf`) | **EST-001** — máquina de estados do `Agendamento` (5 estados, 6 transições) | Pronto para walkthrough |
 | `03-uml/Sequências/proposta-I2-especificacao-sequencias.md` | Especificação das três sequências: participantes, fragmentos, decisões, lacunas | Pronto para walkthrough |

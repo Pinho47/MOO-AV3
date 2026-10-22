@@ -53,7 +53,7 @@ O objetivo comum é mostrar **quem fala com quem, em que ordem e sob qual condi�
 ### 21.5 Como interpretar
 
 1. **A linha de vida é a unidade de responsabilidade.** `ServicoAgenda`, `ServicoAuditoria`, `ServicoAutenticacao` e `ServicoNotificacao` são **responsabilidades de aplicação** (AP-01 a AP-04): concentram a orquestração e ficam **fora** do diagrama de classes de domínio, conforme o plano §5.2. As entidades (`Usuario`, `Vinculo`, `Agenda`, `Agendamento`, `Atendimento`, `RegistroAuditoria`) carregam as regras.
-2. **Toda mensagem remete a uma operação ou responsabilidade conhecida.** As 37 mensagens dos três diagramas foram conferidas uma a uma contra as operações `OP-01…OP-22` da Fase 5, as responsabilidades `AP-01…AP-05` e as interfaces de infraestrutura `IR-01`/`IR-02`. Não existe mensagem "inventada para satisfazer um diagrama futuro" (plano §8).
+2. **Toda mensagem remete a uma operação ou responsabilidade conhecida.** As **82 setas** dos três diagramas (49 solicitações e 33 retornos; 35 mensagens de solicitação distintas) foram conferidas uma a uma contra as operações `OP-01…OP-22` da Fase 5, as responsabilidades `AP-01…AP-05` e as interfaces de infraestrutura `IR-01`/`IR-02`. Não existe mensagem "inventada para satisfazer um diagrama futuro" (plano §8).
 3. **A seta tracejada é o retorno** (`-->>`) e não conta como mensagem nova na contagem.
 4. **`alt` é alternativa de fluxo, `opt` é bloco condicional**, e ambos refletem o texto do caso de uso — nenhuma alternativa existe só no diagrama.
 5. **As guardas aparecem entre colchetes** na própria mensagem (`[OP-15 / RN-012]`), de modo que a regra fica legível sem consultar a matriz.
@@ -202,7 +202,7 @@ O plano §6.1 pede "o diagrama de atividades com decisões, responsabilidades e 
 
 ### 23.5 Relação com requisitos, classes e banco
 
-Cada atividade do ATV-001 corresponde a uma operação de domínio, a uma responsabilidade de aplicação ou a um efeito de regra (matriz `06-rastreabilidade/matriz-rastreabilidade-fase6.md` §2.5). Nenhuma atividade existe sem origem: as 18 atividades auditadas estão todas ancoradas. As atividades de consulta de horário e de registro de atendimento correspondem, no banco, a leituras e escritas em `disponibilidade`, `agendamento` e `atendimento` (seção 26).
+Cada atividade do ATV-001 corresponde a uma operação de domínio, a uma responsabilidade de aplicação ou a um efeito de regra (matriz `06-rastreabilidade/matriz-rastreabilidade-fase6.md` §2.5). Nenhuma atividade existe sem origem: as **26 atividades em pista** (das quais 4 são decisões) e os 5 nós `Fim` estão todos ancorados. As atividades de consulta de horário e de registro de atendimento correspondem, no banco, a leituras e escritas em `disponibilidade`, `agendamento` e `atendimento` (seção 26).
 
 ### 23.6 Arquivos
 
