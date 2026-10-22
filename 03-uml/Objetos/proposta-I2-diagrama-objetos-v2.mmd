@@ -1,0 +1,90 @@
+classDiagram
+    direction TB
+    %% ============================================================
+    %% OBJ-002 - PROPOSTA DO INTEGRANTE 2 (Fase 5)
+    %% Complementa OBJ-001 (03-uml/Objetos/diagrama-objetos.mmd), que
+    %% mostra apenas cadastro. Aqui o cenario relevante e o ciclo do
+    %% agendamento: solicitado -> confirmado -> realizado / cancelado.
+    %% Todos os valores sao ficticios (DEC-005). Nao ha dado real de
+    %% paciente, nome de pessoa, CPF, e-mail ou CRP.
+    %% Notacao: mesma gramática classDiagram adaptada ja usada no
+    %% repositorio (rotulo = nomeInstancia : Classe).
+    %% ============================================================
+
+    class contaPacienteCenario["contaPacienteCenario : Usuario"] {
+        identificacao = CONTA-FICTICIA-C01
+        situacaoConta = ATIVO
+    }
+    class contaProfissionalCenario["contaProfissionalCenario : Usuario"] {
+        identificacao = CONTA-FICTICIA-P01
+        situacaoConta = ATIVO
+    }
+    class perfilPacienteCenario["perfilPacienteCenario : Perfil"]
+    class permissaoConsultaCenario["permissaoConsultaCenario : Permissao"]
+    class pacienteCenario["pacienteCenario : Paciente"] {
+        situacaoCadastral = ATIVO
+    }
+    class profissionalCenario["profissionalCenario : Psicologo"]
+    class areaAtuacaoCenario["areaAtuacaoCenario : AreaAtuacao"]
+    class vinculoCenario["vinculoCenario : Vinculo"] {
+        situacao = ATIVO
+        dataInicio = 2026-10-01
+    }
+    class agendaCenario["agendaCenario : Agenda"]
+    class disponibilidadeCenario["disponibilidadeCenario : Disponibilidade"] {
+        periodo = FAIXA-FICTICIA 2026-11-03 14h00 a 15h00
+    }
+    class agendamentoRealizadoCenario["agendamentoRealizadoCenario : Agendamento"] {
+        situacao = REALIZADO
+        horario = 2026-11-03 14h00
+    }
+    class agendamentoCanceladoCenario["agendamentoCanceladoCenario : Agendamento"] {
+        situacao = CANCELADO
+        horario = 2026-11-05 09h00
+    }
+    class atendimentoCenario["atendimentoCenario : Atendimento"]
+    class auditoriaConclusaoCenario["auditoriaConclusaoCenario : RegistroAuditoria"] {
+        data = 2026-11-03
+        hora = 15h05
+        operacao = AGENDAMENTO_CONCLUIDO
+    }
+    class auditoriaCancelamentoCenario["auditoriaCancelamentoCenario : RegistroAuditoria"] {
+        data = 2026-11-02
+        hora = 10h20
+        operacao = AGENDAMENTO_CANCELADO
+    }
+    class notificacaoEnviadaCenario["notificacaoEnviadaCenario : Mensagem (aplicacao)"] {
+        canal = EMAIL
+        referencia = AGENDAMENTO-REALIZADO-CENARIO
+    }
+
+    contaPacienteCenario -- perfilPacienteCenario : A01
+    perfilPacienteCenario -- permissaoConsultaCenario : A02
+    contaPacienteCenario -- pacienteCenario : A04
+    contaProfissionalCenario -- profissionalCenario : A03
+    profissionalCenario -- areaAtuacaoCenario : A05
+    profissionalCenario -- vinculoCenario : A06
+    pacienteCenario -- vinculoCenario : A07
+    profissionalCenario -- agendaCenario : A08
+    agendaCenario -- disponibilidadeCenario : A09
+    agendaCenario -- agendamentoRealizadoCenario : A10
+    agendaCenario -- agendamentoCanceladoCenario : A10
+    profissionalCenario -- agendamentoRealizadoCenario : A11
+    profissionalCenario -- agendamentoCanceladoCenario : A11
+    pacienteCenario -- agendamentoRealizadoCenario : A12
+    pacienteCenario -- agendamentoCanceladoCenario : A12
+    profissionalCenario -- atendimentoCenario : A13
+    pacienteCenario -- atendimentoCenario : A14
+    agendamentoRealizadoCenario -- atendimentoCenario : A15
+    disponibilidadeCenario -- agendamentoRealizadoCenario : A17 reserva condicional (slot discreto)
+    contaProfissionalCenario -- auditoriaConclusaoCenario : A16
+    contaPacienteCenario -- auditoriaCancelamentoCenario : A16
+    notificacaoEnviadaCenario ..> agendamentoRealizadoCenario : referencia
+
+    note for agendamentoRealizadoCenario "OBJ-002: fotografia ficticia parcial do ciclo de agendamento. Dados inventados, sem dado real (DEC-005)."
+    note for agendamentoRealizadoCenario "Agendamento concluído: sessions realizada, com um unico Atendimento conceitual (A15) e registro de auditoria do responsavel."
+    note for agendamentoCanceladoCenario "Agendamento cancelado: nao possui Atendimento (RN-006). A ausencia e significativa e esta anotada aqui."
+    note for atendimentoCenario "Registro conceitual de sessao, sem conteudo clinico (RF-030, DEC-008)."
+    note for vinculoCenario "Vinculo ATIVO entre os dois cadastros ficticios: sustenta RN-003 e RN-007."
+    note for notificacaoEnviadaCenario "OBJETO DE APLICACAO, NAO CLASSE DE DOMINIO. Representa o include de notificacao; DEC-009 pendente."
+    note for agendaCenario "A multiplicidade das ligacoes NAO e declarada aqui: a fotografia exemplifica, nao define cardinalidade."

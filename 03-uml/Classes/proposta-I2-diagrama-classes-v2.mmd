@@ -1,0 +1,161 @@
+classDiagram
+    direction TB
+    %% ============================================================
+    %% CLS-001 v2 - PROPOSTA DO INTEGRANTE 2 (Fase 5, revisao)
+    %% Base: 03-uml/Classes/diagrama-classes.mmd (Integrante 3)
+    %% Natureza: PROPOSTA. Nao substitui o artefato do Integrante 3;
+    %% precisa de aprovacao do grupo antes de ser incorporada.
+    %% Multiplicidades fechadas conforme revisao FASE5-REV-I2 secao 7.
+    %% Situacoes nomeadas conforme revisao FASE5-REV-I2 secao 6.
+    %% Operacoes OP-01..OP-22 sao PROPOSTAS com base em RF/RN/UC.
+    %% ============================================================
+    %% Operacoes marcadas com [OP-xx] sao propostas do Integrante 2.
+    %% Operacoes sem marca ja existem no modelo do Integrante 3.
+
+    class Usuario {
+        -identificacao
+        -credencialProtegida
+        -situacaoConta
+        +ativar(solicitante: Usuario)
+        +bloquear(solicitante: Usuario)
+        +associarPerfil(perfil: Perfil, solicitante: Usuario)
+        +atualizarDadosPermitidos(dadosPermitidos, solicitante: Usuario)
+        +podeAutenticar() Booleano [OP-01]
+        +confereCredencial(credencial: Credencial) Booleano [OP-02]
+        +cadastrar(dadosPermitidos, perfil: Perfil, solicitante: Usuario) Usuario [OP-03]
+        +consultarPermitidos(solicitante: Usuario) List~Usuario~ [OP-04]
+    }
+
+    class Perfil {
+        +adicionarPermissao(permissao: Permissao, solicitante: Usuario)
+        +removerPermissao(permissao: Permissao, solicitante: Usuario)
+    }
+
+    class Permissao
+
+    class Psicologo {
+        +atualizarDadosProfissionais(dadosPermitidos, solicitante: Usuario)
+        +associarAreaAtuacao(area: AreaAtuacao, solicitante: Usuario)
+        +consultarPacientesVinculados(solicitante: Usuario)
+        +consultarHistoricoPermitido(paciente: Paciente, solicitante: Usuario)
+        +cadastrar(dadosPermitidos, solicitante: Usuario) Psicologo [OP-05]
+        +consultarCadastros(solicitante: Usuario) List~Psicologo~ [OP-06]
+    }
+
+    class AreaAtuacao
+
+    class Paciente {
+        -situacaoCadastral
+        +atualizarCadastro(dadosPermitidos, solicitante: Usuario)
+        +alterarSituacao(novaSituacao, solicitante: Usuario)
+        +consultarCadastroPermitido(solicitante: Usuario)
+        +cadastrar(dadosPermitidos, solicitante: Usuario) Paciente [OP-07]
+        +consultarCadastros(solicitante: Usuario) List~Paciente~ [OP-08]
+    }
+
+    class Vinculo {
+        -situacao
+        -dataInicio
+        -dataFim
+        +formalizar(psicologo: Psicologo, paciente: Paciente, solicitante: Usuario) Vinculo
+        +estaAutorizado() Booleano
+        +encerrar(solicitante: Usuario, data: Data) Vinculo [OP-21]
+        +estaAtivo() Booleano [OP-22]
+    }
+
+    class Agenda {
+        +adicionarDisponibilidade(disponibilidade: Disponibilidade, solicitante: Usuario)
+        +verificarDisponibilidade(horario) Booleano
+        +cadastrarDisponibilidade(periodo: Periodo, solicitante: Usuario) Disponibilidade [OP-10]
+        +consultarHorariosDisponiveis(paciente: Paciente, periodo: Periodo) List~Disponibilidade~ [OP-11]
+        +consultarCompromissos(solicitante: Usuario) List~Agendamento~ [OP-12]
+    }
+
+    class Disponibilidade {
+        -periodo
+    }
+
+    class Agendamento {
+        -horario
+        -situacao
+        +solicitar(psicologo: Psicologo, paciente: Paciente, horario, solicitante: Usuario) Agendamento
+        +confirmar(solicitante: Usuario) [OP-13]
+        +cancelar(solicitante: Usuario, motivo: Texto) [OP-14]
+        +podeSerCancelado() Booleano [OP-15]
+        +estaCancelada() Booleano [OP-16]
+        +concluir(solicitante: Usuario) [OP-17]
+        +registrarFalta(solicitante: Usuario) [OP-18]
+        +consultarMeus(solicitante: Usuario) List~Agendamento~ [OP-19]
+    }
+
+    class Atendimento {
+        +registrar(agendamento: Agendamento, contextoSessao, solicitante: Usuario) Atendimento [OP-20]
+    }
+
+    class RegistroAuditoria {
+        -Data data
+        -Hora hora
+        -operacao
+        +registrar(responsavel: Usuario, data: Data, hora: Hora, operacao) RegistroAuditoria
+        +consultar(filtro, solicitante: Usuario) List~RegistroAuditoria~ [OP-09]
+    }
+
+    class SituacaoConta {
+        <<enumeration>>
+        ATIVO
+        BLOQUEADO
+        INATIVO
+    }
+
+    class SituacaoCadastral {
+        <<enumeration>>
+        ATIVO
+        SUSPENSO
+        INATIVO
+    }
+
+    class SituacaoVinculo {
+        <<enumeration>>
+        ATIVO
+        ENCERRADO
+    }
+
+    class SituacaoAgendamento {
+        <<enumeration>>
+        SOLICITADO
+        CONFIRMADO
+        REALIZADO
+        CANCELADO
+        NAO_COMPARECEU
+    }
+
+    Usuario "0..1" -- "1" Perfil : A01 possui perfil de acesso
+    Perfil "1" -- "0..*" Permissao : A02 agrupa
+    Usuario "0..1" -- "0..1" Psicologo : A03 conta do cadastro profissional
+    Usuario "0..1" -- "0..1" Paciente : A04 conta do cadastro de paciente
+    Psicologo "0..*" -- "1" AreaAtuacao : A05 atua em
+    Psicologo "1" -- "0..*" Vinculo : A06 participa
+    Paciente "1" -- "0..*" Vinculo : A07 participa
+    Psicologo "1" -- "1" Agenda : A08 titular
+    Agenda "1" -- "0..*" Disponibilidade : A09 organiza
+    Agenda "1" -- "0..*" Agendamento : A10 apresenta compromissos
+    Psicologo "1" -- "0..*" Agendamento : A11 profissional agendado
+    Paciente "1" -- "0..*" Agendamento : A12 paciente agendado
+    Psicologo "1" -- "0..*" Atendimento : A13 profissional responsavel
+    Paciente "1" -- "0..*" Atendimento : A14 paciente atendido
+    Agendamento "1" -- "0..1" Atendimento : A15 corresponde a sessao
+    Usuario "0..1" -- "0..*" RegistroAuditoria : A16 responsavel pela operacao
+    Disponibilidade "0..1" -- "0..*" Agendamento : A17 reserva condicional (slot discreto)
+
+    Usuario ..> SituacaoConta : situacaoConta
+    Paciente ..> SituacaoCadastral : situacaoCadastral
+    Vinculo ..> SituacaoVinculo : situacao
+    Agendamento ..> SituacaoAgendamento : situacao
+
+    note for Usuario "PROPOSTA DO INTEGRANTE 2 (Fase 5): multiplicidades fechadas e situacoes nomeadas. Revisar com o Integrante 3 antes de incorporar."
+    note for Usuario "Conta de acesso. OP-01/OP-02 sustentam RF-001 e RN-001. Sessao e fora do dominio (P-07)."
+    note for Vinculo "OP-21/OP-22 dependem da decisao de temporalidade e estado (R5-09, DUV-003)."
+    note for Agenda "OP-11 devolve a lista de slots livres de RF-024; pressupoe o modelo de slot discreto (P-05)."
+    note for Agendamento "OP-13..OP-19 completam assinaturas e guardas de RF-026/RF-027 e do ciclo de EST-001."
+    note for Atendimento "OP-20 referencia o Agendamento: torna verificaveis RF-030 e RN-006 (R5-05)."
+    note for RegistroAuditoria "OP-09 cobre a leitura de RF-013 com ordem cronologica e filtro."
